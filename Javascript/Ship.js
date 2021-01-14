@@ -6,11 +6,10 @@ var isLeft = false;
 var isUp = false;
 var leftLaser = false;
 var rightLaser = false;
-var laser;
-var asteroids = [];
+var laser = false;
 
 function setup() {
-    let canvas = createCanvas(windowWidth -20 , windowHeight - 20);
+    let canvas = createCanvas(windowWidth -20 , windowHeight -);
     ship = new Ship();
 }
 
