@@ -7,6 +7,7 @@ var isUp = false;
 var leftLaser = false;
 var rightLaser = false;
 var laser;
+var d = 5;
 
 function setup() {
     let canvas = createCanvas(windowWidth - 20, windowHeight - 20);
@@ -142,7 +143,9 @@ function Ship() {
 
         this.shooting = function () {
             if (leftLaser) {
-                laser.push(new laserLeft());
+                stroke(255);
+                fill('white');
+                circle(this.pos.x, this.pos.y, d);
             }
         }
 }
