@@ -8,7 +8,7 @@ var laser = false;
 var d = 5;
 
 function setup() {
-    let canvas = createCanvas(windowWidth - 20, windowHeight - 20);
+    let canvas = createCanvas(windowWidth -20 , windowHeight -20);
     ship = new Ship();
 }
 
@@ -149,5 +149,18 @@ function Ship() {
            triangle(-this.r + 13, this.r, this.r - 13, this.r , 0, -this.r + 50);
         }
         ship.boosting(isUp)
+    }
+}
+
+
+function Asteroid() {
+    this.pos = createVector(random(width), random(height))
+    this.r = 50;
+
+    this.render = function() {
+        stroke(255);
+        noFill();
+        translate(this.pos.x, this.pos.y);
+        ellipse(0, 0, this.r * 2);
     }
 }
