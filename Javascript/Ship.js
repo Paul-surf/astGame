@@ -19,7 +19,14 @@ function draw() {
     ship.update();
     ship.edges();
     ship.movement();
-    ship.shooting();
+
+    if (laser) {
+        push(); 
+        stroke(255);
+        fill('white');
+        circle(50, 20, 20);
+        pop(); 
+    }
 
 }
 
@@ -80,8 +87,10 @@ function Ship() {
 
 
     this.render = function () {
+        
         translate(this.pos.x, this.pos.y);
         rotate(this.heading + PI / 2);
+        push();
         fill('grey')
         stroke(150);
         triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
@@ -93,6 +102,7 @@ function Ship() {
         fill('black')
         stroke(200)
         line(0, this.r - 5, 0, this.r - 15)
+        pop();
         stroke(150)
         fill('red')
         
@@ -140,12 +150,4 @@ function Ship() {
         }
         ship.boosting(isUp)
     }
-
-        this.shooting = function () {
-            if (laser) {
-                stroke(255);
-                fill('white');
-                circle(this.pos.x, this.pos.y, d);
-            }
-        }
 }
