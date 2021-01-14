@@ -4,9 +4,7 @@ var ship;
 var isRight = false;
 var isLeft = false;
 var isUp = false;
-var leftLaser = false;
-var rightLaser = false;
-var laser;
+var laser = false;
 var d = 5;
 
 function setup() {
@@ -47,11 +45,8 @@ function keyPressed() {
     if (keyCode == UP_ARROW) {
         isUp = true
     }
-    if (key == 'a') {
-        leftLaser = true
-    }
-    if (key == 'd') {
-        rightLaser = true
+    if (keyCode == 32) {
+        laser = true
     }
 
 }
@@ -88,13 +83,17 @@ function Ship() {
         translate(this.pos.x, this.pos.y);
         rotate(this.heading + PI / 2);
         fill('grey')
-        stroke(255);
+        stroke(150);
         triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
         fill(80)
         triangle(-this.r + 13.5, this.r - 25, this.r - 13.5, this.r - 25, 0, -this.r)
         fill('white')
         line(-this.r + 2, this.r- 20, -this.r + 2, this.r - 5)
         line(this.r - 2, this.r - 20, this.r - 2, this.r - 5)
+        fill('black')
+        stroke(200)
+        line(0, this.r - 5, 0, this.r - 15)
+        stroke(150)
         fill('red')
         
     }
@@ -134,6 +133,7 @@ function Ship() {
         }
         if (isUp) {
            ship.boosting(true)
+           noStroke();
            triangle(-this.r + 5, this.r, this.r - 5, this.r , 0, -this.r + 60);
            fill('orange');
            triangle(-this.r + 13, this.r, this.r - 13, this.r , 0, -this.r + 50);
@@ -142,7 +142,7 @@ function Ship() {
     }
 
         this.shooting = function () {
-            if (leftLaser) {
+            if (laser) {
                 stroke(255);
                 fill('white');
                 circle(this.pos.x, this.pos.y, d);
