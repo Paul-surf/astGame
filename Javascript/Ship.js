@@ -9,7 +9,7 @@ var rightLaser = false;
 var laser = false;
 
 function setup() {
-    let canvas = createCanvas(windowWidth -20 , windowHeight -);
+    let canvas = createCanvas(windowWidth -20 , windowHeight -20);
     ship = new Ship();
 }
 
