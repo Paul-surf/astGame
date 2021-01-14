@@ -82,6 +82,7 @@ function Ship() {
         noFill();
         stroke(255);
         triangle(-this.r, this.r, this.r, this.r, 0, -this.r)
+        triangle(-this.r + 5, this.r, this.r - 5, this.r , 0, -this.r + 60)
     }
 
     this.edges = function () {
