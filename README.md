@@ -1,2 +1,2 @@
-# astGame.github.io
+# astGame
 Hej :)
