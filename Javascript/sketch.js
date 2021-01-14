@@ -1,9 +1,11 @@
-const { SHIFT } = require("../p5lib/p5");
+const { SHIFT, FILL, LINE_LOOP } = require("../p5lib/p5");
 
 var ship;
 var isRight = false;
 var isLeft = false;
 var isUp = false;
+
+let c;
 
 
 function setup() {
@@ -18,7 +20,6 @@ function draw() {
     ship.update();
     ship.edges();
     ship.movement();
-
 
 }
 
@@ -79,10 +80,16 @@ function Ship() {
     this.render = function () {
         translate(this.pos.x, this.pos.y);
         rotate(this.heading + PI / 2);
-        noFill();
+        fill('grey')
         stroke(255);
-        triangle(-this.r, this.r, this.r, this.r, 0, -this.r)
-        triangle(-this.r + 5, this.r, this.r - 5, this.r , 0, -this.r + 60)
+        triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
+        fill(80)
+        triangle(-this.r + 13.5, this.r - 25, this.r - 13.5, this.r - 25, 0, -this.r)
+        fill('white')
+        line(-this.r + 2, this.r- 20, -this.r + 2, this.r - 5)
+        line(this.r - 2, this.r - 20, this.r - 2, this.r - 5)
+        fill('red')
+        
     }
 
     this.edges = function () {
@@ -118,7 +125,12 @@ function Ship() {
         if (!isLeft && !isRight || isLeft && isRight) {
             ship.setRotation(0)
         }
+        if (isUp) {
+           ship.boosting(true)
+           triangle(-this.r + 5, this.r, this.r - 5, this.r , 0, -this.r + 60);
+           fill('orange');
+           triangle(-this.r + 13, this.r, this.r - 13, this.r , 0, -this.r + 50);
+        }
         ship.boosting(isUp)
     }
-    
 }
