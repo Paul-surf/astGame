@@ -7,9 +7,10 @@ var isUp = false;
 var leftLaser = false;
 var rightLaser = false;
 var laser;
+var asteroids = [];
 
 function setup() {
-    let canvas = createCanvas(windowWidth - 20, windowHeight - 20);
+    let canvas = createCanvas(windowWidth -20 , windowHeight - 20);
     ship = new Ship();
 }
 
@@ -145,4 +146,17 @@ function Ship() {
                 laser.push(new laserLeft());
             }
         }
+}
+
+
+function Asteroid() {
+    this.pos = createVector(random(width), random(height))
+    this.r = 50;
+
+    this.render = function() {
+        stroke(255);
+        noFill();
+        translate(this.pos.x, this.pos.y);
+        ellipse(0, 0, this.r * 2);
+    }
 }
