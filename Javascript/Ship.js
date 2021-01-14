@@ -4,9 +4,9 @@ var ship;
 var isRight = false;
 var isLeft = false;
 var isUp = false;
-
-let c;
-
+var leftLaser = false;
+var rightLaser = false;
+var laser;
 
 function setup() {
     let canvas = createCanvas(windowWidth - 20, windowHeight - 20);
@@ -20,6 +20,7 @@ function draw() {
     ship.update();
     ship.edges();
     ship.movement();
+    ship.shooting();
 
 }
 
@@ -45,7 +46,12 @@ function keyPressed() {
     if (keyCode == UP_ARROW) {
         isUp = true
     }
-
+    if (key == 'a') {
+        leftLaser = true
+    }
+    if (key == 'd') {
+        rightLaser = true
+    }
 
 }
 
@@ -133,4 +139,10 @@ function Ship() {
         }
         ship.boosting(isUp)
     }
+
+        this.shooting = function () {
+            if (leftLaser) {
+                laser.push(new laserLeft());
+            }
+        }
 }
