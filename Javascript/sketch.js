@@ -72,7 +72,7 @@ function Ship() {
 
     this.boost = function () {
         var force = p5.Vector.fromAngle(this.heading);
-        force.mult(0.1)
+        force.mult(0.2)
         this.vel.add(force);
     }
 
