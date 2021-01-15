@@ -1,3 +1,2 @@
 # astGame
-Hej :)
-Din mor
+[our game](https://paul-surf.github.io/astGame/)
