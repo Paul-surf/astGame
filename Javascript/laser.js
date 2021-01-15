@@ -8,12 +8,12 @@ function Laser(spos, angle) {
     }
 
     this.render = function() {
-        push(); 
+        push();  
         stroke(255);
         strokeWeight(4); 
-        point(this.pos.x, this.pos.y); 
+        point(this.pos.x,this.pos.y );
         pop(); 
-    }
+    } 
 
         this.hits = function(Asteroid) {
             var d = dist(this.pos.x, this.pos.y, Asteroid.pos.x, Asteroid.pos.y);
@@ -34,7 +34,7 @@ function Laser(spos, angle) {
             return false;
         }
 
-
+        
 
 
 

@@ -58,7 +58,7 @@ function Asteroid(pos, r) {
 
 
 
-        fill(26);
+        fill(25);
         strokeWeight(0)
 
         beginShape();
@@ -67,7 +67,7 @@ function Asteroid(pos, r) {
             var r = this.r + this.offset[i];
             var x = r * cos(angle);
             var y = r * sin(angle);
-            vertex(x*0.15, y*0.25);
+            vertex(x*0.3, y*0.4);
         }
         
         endShape(CLOSE);

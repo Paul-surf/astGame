@@ -4,6 +4,7 @@ var lasers = [];
 var isRight = false;
 var isLeft = false;
 var isUp = false;
+var isShooting = false;
 var bg;
 
 
@@ -59,6 +60,14 @@ function draw() {
     ship.edges();
     ship.movement();
 
+
+    if (isShooting) {
+            lasers.push(new Laser(ship.pos, ship.heading));
+    } else {
+        isShooting = false;
+    }
+
+
 }
 
 function keyReleased() {
@@ -70,6 +79,9 @@ function keyReleased() {
     }
     if (keyCode == 87) {
         isUp = false
+    }
+    if (key == ' ') {
+        isShooting = false
     }
 }
 
@@ -84,7 +96,7 @@ function keyPressed() {
         isUp = true
     }
     if (key == ' ') {
-        lasers.push(new Laser(ship.pos, ship.heading));
+        isShooting = true
     }
 }
 
