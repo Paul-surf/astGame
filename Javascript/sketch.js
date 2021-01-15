@@ -4,10 +4,13 @@ var lasers = [];
 var isRight = false;
 var isLeft = false;
 var isUp = false;
+var bg;
 
 
 function setup() {
-    let canvas = createCanvas(windowWidth -20 , windowHeight -20);
+    var canvas = createCanvas(windowWidth, windowHeight);
+    canvas.parent(game)
+    bg = loadImage('../pictures/stars.jpg')
     ship = new Ship();
     for (var k = 0; k < 15; k++){
         asteroids.push(new Asteroid());
@@ -15,7 +18,7 @@ function setup() {
 }
 
 function draw() {
-    background(15);
+    background(bg);
     
     
     for (var i = 0; i < asteroids.length; i++) {
