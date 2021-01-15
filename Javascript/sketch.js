@@ -59,31 +59,34 @@ function draw() {
 }
 
 function keyReleased() {
-    if (keyCode == RIGHT_ARROW) {
+    if (keyCode == 68) {
         isRight = false
     }
-    if (keyCode == LEFT_ARROW) {
+    if (keyCode == 65) {
         isLeft = false
     }
-    if (keyCode == UP_ARROW) {
+    if (keyCode == 87) {
         isUp = false
     }
 }
 
 function keyPressed() {
-    if (keyCode == RIGHT_ARROW) {
+    if (keyCode == 68) {
         isRight = true
     }
-    if (keyCode == LEFT_ARROW) {
+    if (keyCode == 65) {
         isLeft = true
     }
-    if (keyCode == UP_ARROW) {
+    if (keyCode == 87) {
         isUp = true
     }
     if (key == ' ') {
         lasers.push(new Laser(ship.pos, ship.heading));
     }
-
 }
 
-
+// Tallende betyder W A S D
+// W = 87
+// A = 65
+// S = 83
+// D = 68
