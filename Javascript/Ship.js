@@ -40,7 +40,7 @@ function Ship() {
         push();
         translate(this.pos.x, this.pos.y);
         rotate(this.heading + PI / 2);
-        fill('grey')
+        fill(100);
         stroke(150);
         triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
         fill(80)
