@@ -17,24 +17,31 @@ function setup() {
 function draw() {
     background(15);
     
-    for (var i = 0; i < lasers.length; i++) {
-        lasers[i].render();
-        lasers[i].update(); 
-        for (var j = 0; j < asteroids.length; j++) {
-            if (lasers[i].hits(asteroids[i])) {
-                
-
-        }
-
-
-        }
-    }
-
+    
     for (var i = 0; i < asteroids.length; i++) {
+        if (ship.hits(asteroids[i])) {
+            console.log('ooops!');
+        }
         asteroids[i].position();
         asteroids[i].update();
         asteroids[i].edges();
     }
+
+    for (var i = lasers.length-1; i >= 0; i--) {
+        lasers[i].render();
+        lasers[i].update();
+        for (var j = asteroids.length- 1; j >= 0; j--) {
+            if (lasers[i].hits(asteroids[j])) {
+                if (asteroids[j].r > 20) {
+                    var newAsteroids = asteroids[j].breakup();
+                    asteroids = asteroids.concat(newAsteroids);
+                }
+                    asteroids.splice(j, 1);
+                    lasers.splice(i, 1);
+                    break;
+            }
+        } 
+ }
 
     ship.render();
     ship.turn();
