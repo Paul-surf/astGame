@@ -1,63 +1,3 @@
-const { SHIFT, FILL, LINE_LOOP } = require("../p5lib/p5");
-
-var ship;
-var isRight = false;
-var isLeft = false;
-var isUp = false;
-var laser = false;
-var d = 5;
-
-function setup() {
-    let canvas = createCanvas(windowWidth -20 , windowHeight -20);
-    ship = new Ship();
-}
-
-function draw() {
-    background(15);
-    ship.render();
-    ship.turn();
-    ship.update();
-    ship.edges();
-    ship.movement();
-
-    if (laser) {
-        push(); 
-        stroke(255);
-        fill('white');
-        circle(50, 20, 20);
-        pop(); 
-    }
-
-}
-
-function keyReleased() {
-    if (keyCode == RIGHT_ARROW) {
-        isRight = false
-    }
-    if (keyCode == LEFT_ARROW) {
-        isLeft = false
-    }
-    if (keyCode == UP_ARROW) {
-        isUp = false
-    }
-}
-
-function keyPressed() {
-    if (keyCode == RIGHT_ARROW) {
-        isRight = true
-    }
-    if (keyCode == LEFT_ARROW) {
-        isLeft = true
-    }
-    if (keyCode == UP_ARROW) {
-        isUp = true
-    }
-    if (keyCode == 32) {
-        laser = true
-    }
-
-}
-
 function Ship() {
     this.pos = createVector(width / 2, height / 2)
     this.r = 20
@@ -87,10 +27,9 @@ function Ship() {
 
 
     this.render = function () {
-        
+        push();
         translate(this.pos.x, this.pos.y);
         rotate(this.heading + PI / 2);
-        push();
         fill('grey')
         stroke(150);
         triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
@@ -102,9 +41,38 @@ function Ship() {
         fill('black')
         stroke(200)
         line(0, this.r - 5, 0, this.r - 15)
-        pop();
         stroke(150)
-        fill('red')
+        pop();
+        if (isUp) {
+            push();
+            translate(this.pos.x, this.pos.y);
+            rotate(this.heading + PI / 2);
+            noStroke();
+            fill('red')
+            triangle(-this.r + 5, this.r, this.r - 5, this.r , 0, -this.r + 60);
+            fill('orange');
+            triangle(-this.r + 13, this.r, this.r - 13, this.r , 0, -this.r + 50);
+            pop();
+        }
+    }
+
+    this.movement = function () {
+        if (isUp) {
+            push();
+            ship.boosting(true)
+            pop();
+         }
+         ship.boosting(isUp);
+       
+        if (isRight) {
+            ship.setRotation(0.1);
+        }
+        if (isLeft) {
+            ship.setRotation(-0.1);
+        }
+        if (!isLeft && !isRight || isLeft && isRight) {
+            ship.setRotation(0)
+        }
         
     }
 
@@ -129,38 +97,5 @@ function Ship() {
         this.heading += this.rotation;
 
 
-    }
-
-    this.movement = function () {
-        if (isRight) {
-            ship.setRotation(0.1);
-        }
-        if (isLeft) {
-            ship.setRotation(-0.1);
-        }
-        if (!isLeft && !isRight || isLeft && isRight) {
-            ship.setRotation(0)
-        }
-        if (isUp) {
-           ship.boosting(true)
-           noStroke();
-           triangle(-this.r + 5, this.r, this.r - 5, this.r , 0, -this.r + 60);
-           fill('orange');
-           triangle(-this.r + 13, this.r, this.r - 13, this.r , 0, -this.r + 50);
-        }
-        ship.boosting(isUp)
-    }
-}
-
-
-function Asteroid() {
-    this.pos = createVector(random(width), random(height))
-    this.r = 50;
-
-    this.render = function() {
-        stroke(255);
-        noFill();
-        translate(this.pos.x, this.pos.y);
-        ellipse(0, 0, this.r * 2);
     }
 }
