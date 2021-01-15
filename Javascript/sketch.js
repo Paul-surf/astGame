@@ -10,7 +10,7 @@ var bg;
 function setup() {
     var canvas = createCanvas(windowWidth, windowHeight);
     canvas.parent(game)
-    bg = loadImage('../pictures/stars.jpg')
+    bg = loadImage('../pictures/galaxy.jpg')
     ship = new Ship();
     for (var k = 0; k < 15; k++){
         asteroids.push(new Asteroid());
