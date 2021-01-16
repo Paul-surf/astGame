@@ -7,7 +7,9 @@ var isUp = false;
 var isShooting = false;
 var bg;
 var score = 0;
-document.getElementById("score").innerHTML = +score;
+var realscore = score.toFixed(2);
+
+document.getElementById("realscore").innerHTML = +realscore;
 
 
 function setup() {
@@ -52,7 +54,8 @@ function draw() {
                     asteroids.splice(j, 1);
                     score = score + 1;
                     score = score * 1.01;
-                    document.getElementById("score").innerHTML = +score;
+                    realscore = score.toFixed(2);
+                    document.getElementById("realscore").innerHTML = +realscore;
                     lasers.splice(i, 1);
                     break;
                 }
