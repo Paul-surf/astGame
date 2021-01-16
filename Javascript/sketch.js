@@ -8,8 +8,10 @@ var isShooting = false;
 var bg;
 var score = 0;
 var realscore = score.toFixed(2);
+var multiplier = 0
 
 document.getElementById("realscore").innerHTML = +realscore;
+document.getElementById("multiplier").innerHTML = +multiplier;
 
 
 function setup() {
@@ -31,7 +33,7 @@ function draw() {
     for (var i = 0; i < asteroids.length; i++) {
         if (ship.hits(asteroids[i])) {
             console.log('ooops!');
-            //location.reload();
+            location.reload();
         }
         asteroids[i].position();
         asteroids[i].update();
@@ -56,6 +58,8 @@ function draw() {
                     score = score * 1.01;
                     realscore = score.toFixed(2);
                     document.getElementById("realscore").innerHTML = +realscore;
+                    multiplier = multiplier + 10;
+                    document.getElementById("multiplier").innerHTML = +multiplier;
                     lasers.splice(i, 1);
                     break;
                 }
