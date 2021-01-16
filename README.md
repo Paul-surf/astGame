@@ -1,4 +1,4 @@
-### Asteroid Game
+# Asteroid Game
 
 * [The Game](https://paul-surf.github.io/astGame/)
 
