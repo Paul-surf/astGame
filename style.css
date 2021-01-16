@@ -10,6 +10,8 @@ body {
     align-items: center;
     justify-content: center;
     background-color: black;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 #game {
@@ -124,6 +126,10 @@ nav ul li span:nth-child(4) {
     border-radius: 50%;
 }
 
-li a:hover {
+a.play:hover {
+    text-decoration: none;
+}
+
+a.play {
     text-decoration: none;
 }
