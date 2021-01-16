@@ -23,11 +23,13 @@ function setup() {
 function draw() {
     background(bg);
     
-    
+
+
+
     for (var i = 0; i < asteroids.length; i++) {
         if (ship.hits(asteroids[i])) {
             console.log('ooops!');
-            location.reload();
+            //location.reload();
         }
         asteroids[i].position();
         asteroids[i].update();
@@ -49,6 +51,7 @@ function draw() {
                     }
                     asteroids.splice(j, 1);
                     score = score + 1;
+                    score = score * 1.01;
                     document.getElementById("score").innerHTML = +score;
                     lasers.splice(i, 1);
                     break;
@@ -58,6 +61,10 @@ function draw() {
         
 
  }
+
+
+
+
 
     ship.render();
     ship.turn();
