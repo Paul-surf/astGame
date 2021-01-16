@@ -6,6 +6,8 @@ var isLeft = false;
 var isUp = false;
 var isShooting = false;
 var bg;
+var score = 0;
+document.getElementById("score").innerHTML = +score;
 
 
 function setup() {
@@ -45,6 +47,8 @@ function draw() {
                         asteroids = asteroids.concat(newAsteroids);
                     }
                     asteroids.splice(j, 1);
+                    score = score + 1;
+                    document.getElementById("score").innerHTML = +score;
                     lasers.splice(i, 1);
                     break;
                 }
@@ -61,15 +65,15 @@ function draw() {
     ship.movement();
 
 
-    if (isShooting) {
+    /* if (isShooting) {
             lasers.push(new Laser(ship.pos, ship.heading));
     } else {
         isShooting = false;
     }
 
 
+    */
 }
-
 function keyReleased() {
     if (keyCode == 68) {
         isRight = false
@@ -96,7 +100,8 @@ function keyPressed() {
         isUp = true
     }
     if (key == ' ') {
-        isShooting = true
+        //isShooting = true¨
+        lasers.push(new Laser(ship.pos, ship.heading));
     }
 }
 
