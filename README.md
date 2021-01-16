@@ -5,7 +5,7 @@
 ## Controls
 
 ```
-W = Foward
+W = Forward
 A = Rotate Left
 D = Rotate Right
 
