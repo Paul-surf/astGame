@@ -27,6 +27,7 @@ function draw() {
     for (var i = 0; i < asteroids.length; i++) {
         if (ship.hits(asteroids[i])) {
             console.log('ooops!');
+            location.reload();
         }
         asteroids[i].position();
         asteroids[i].update();
