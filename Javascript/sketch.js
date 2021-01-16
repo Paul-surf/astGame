@@ -54,6 +54,7 @@ function draw() {
                         asteroids = asteroids.concat(newAsteroids);
                     }
                     asteroids.splice(j, 1);
+                    asteroids.push(new Asteroid());
                     score = score + 1;
                     score = score * 1.01;
                     realscore = score.toFixed(2);
