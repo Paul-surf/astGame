@@ -7,6 +7,7 @@ body, html {
     height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
+    font-family: "Manrope";
 }
 
 #game {
@@ -20,7 +21,7 @@ p {
     color: white;
     position: absolute;
     z-index: 1000;
-    font-size: 30px;
+    font-size: 27px;
     margin-top: -30px;
     margin-left: 10px;
     width: 1000px;
