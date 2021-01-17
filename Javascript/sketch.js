@@ -9,9 +9,12 @@ var bg;
 var score = 0;
 var realscore = score.toFixed(2);
 var multiplier = 0
+var k = 0;
+
 
 document.getElementById("realscore").innerHTML = +realscore;
 document.getElementById("multiplier").innerHTML = +multiplier;
+
 
 
 function setup() {
@@ -19,16 +22,20 @@ function setup() {
     canvas.parent(game)
     bg = loadImage('pictures/galaxy.jpg')
     ship = new Ship();
-    for (var k = 0; k < 25; k++){
+    
+    while (k < 25){
+        k++;
+        var aAmount = k;
+        document.getElementById("aAmount").innerHTML = +aAmount;
         asteroids.push(new Asteroid());
+        console.log(k);
     }
 }
+
 
 function draw() {
     background(bg);
     
-
-
 
     for (var i = 0; i < asteroids.length; i++) {
         if (ship.hits(asteroids[i])) {
@@ -52,6 +59,10 @@ function draw() {
                     if (asteroids[j].r > 20) {
                         var newAsteroids = asteroids[j].breakup();
                         asteroids = asteroids.concat(newAsteroids);
+                        k = k + 1;
+                        aAmount = k;
+                        console.log(k);
+                        document.getElementById("aAmount").innerHTML = +aAmount;
                     }
                     if (asteroids[j].r <= 20) {
                         asteroids.push(new Asteroid());
