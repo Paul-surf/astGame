@@ -47,10 +47,10 @@ nav ul {
 nav ul li {
     --c: yellow;
     color: var(--c);
-    font-size: 16px;
-    border: 0.3em solid var(--c);
-    border-radius: 0.5em;
-    width: 12em;
+    font-size: 18px;
+    border: 0.1px solid var(--c);
+    border-radius: 4em;
+    width: 13em;
     height: 3em;
     text-transform: uppercase;
     font-weight: bold;
@@ -61,8 +61,8 @@ nav ul li {
     position: relative;
     overflow: hidden;
     z-index: 1;
-    transition: 0.5s;
-    margin: 1em;
+    transition: 2s;
+    margin: 0.1em;
 }
 
 nav ul li span {
@@ -72,7 +72,7 @@ nav ul li span {
     background-color: var(--c);
     transform: translateY(150%);
     border-radius: 50%;
-    left: calc((var(--n) - 1) * 25%);
+    left: calc((var(--n) - 1.4) * 25%);
     transition: 0.5s;
     transition-delay: calc((var(--n) - 1) * 0.1s);
     z-index: -1;
@@ -114,9 +114,9 @@ nav ul li span:nth-child(4) {
 
 a.play:hover {
     text-decoration: none;
+    box-shadow: none;
 }
 
 a.play {
     text-decoration: none;
 }
-
