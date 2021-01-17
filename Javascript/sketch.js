@@ -53,8 +53,10 @@ function draw() {
                         var newAsteroids = asteroids[j].breakup();
                         asteroids = asteroids.concat(newAsteroids);
                     }
+                    if (asteroids[j].r <= 20) {
+                        asteroids.push(new Asteroid());
+                    }
                     asteroids.splice(j, 1);
-                    asteroids.push(new Asteroid());
                     score = score + 1;
                     score = score * 1.01;
                     realscore = score.toFixed(2);
