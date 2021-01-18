@@ -1,24 +1,25 @@
-var ship;
-var asteroids = [];
-var lasers = [];
-var isRight = false;
-var isLeft = false;
-var isUp = false;
-var isShooting = false;
-var bg;
-var score = 0;
-var realscore = score.toFixed(2);
-var multiplier = 0
-var k = 0;
-var perlevel = 0;
-var start = 5;
-var level = 1;
+var ship;                           // ! DO NOT TOUCH ! Variable for the ship
+var asteroids = [];                 // ! DO NOT TOUCH ! Array for the amount of Asteroids
+var lasers = [];                    // ! DO NOT TOUCH ! Array for the amount Lasers
+var isRight = false;                // ! DO NOT TOUCH ! Boolean for the Right function
+var isLeft = false;                 // ! DO NOT TOUCH ! Boolean for the Left function
+var isUp = false;                   // ! DO NOT TOUCH ! Boolean for the Forward function
+var isShooting = false;             // ! DO NOT TOUCH ! Boolean for the Shooting function
+var bg;                             // ! DO NOT TOUCH ! Variable for the picture in the background
+var score = 0;                      // ! DO NOT TOUCH ! The same as "realscore", but with a lot of decimals
+var realscore = score.toFixed(2);   // ! DO NOT TOUCH ! This variable is the one that shows the current score with two decimals on the screen
+var multiplier = 0;                 // ! DO NOT TOUCH ! The variable that shows the amount of multiplier on the screen
+var k = 0;                          // ! DO NOT TOUCH ! This is the variable 
+var perlevel = 0;                   // ! DO NOT TOUCH ! The total amount of Astroids added every level. This value changes everytime the level changes.
+var level = 1;                      // ! DO NOT TOUCH ! What level you are on
+
+var start = 5;                      // The amount of Asteroids that spawn at the start of the game.
+var AddAsteroid = 10;               // How many Asteroids that spawn + the start variable
+var perMultiplier = 1.01;           // How much the score multiplies every time an asteroid is destroyed
 
 document.getElementById("level").innerHTML = +level;
 document.getElementById("realscore").innerHTML = +realscore;
 document.getElementById("multiplier").innerHTML = +multiplier;
-
-
 
 function setup() {
     var canvas = createCanvas(windowWidth, windowHeight);
@@ -43,7 +44,7 @@ function draw() {
     document.getElementById("aAmount").innerHTML = +aAmount;
 
     if (asteroids.length == 0) {
-        perlevel = perlevel + 5;
+        perlevel = perlevel + AddAsteroid;
         level = level + 1;
         document.getElementById("level").innerHTML = +level;
         while (asteroids.length < (start + perlevel)) {
@@ -82,7 +83,7 @@ function draw() {
                     }
                     asteroids.splice(j, 1);
                     score = score + 1;
-                    score = score * 1.01;
+                    score = score * perMultiplier;
                     realscore = score.toFixed(2);
                     document.getElementById("realscore").innerHTML = +realscore;
                     multiplier = multiplier + 10;
@@ -147,7 +148,7 @@ function keyPressed() {
     }
 }
 
-// Tallende betyder W A S D
+// Tallene betyder W A S D
 // W = 87
 // A = 65
 // S = 83
