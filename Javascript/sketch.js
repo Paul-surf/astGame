@@ -32,8 +32,6 @@ function setup() {
     canvas.parent(game)
     bg = loadImage('pictures/galaxy.jpg')
     ship = new Ship();
-    multiplier = multiplier + addMultiplier;
-    document.getElementById("multiplier").innerHTML = +multiplier;
     
     // adds the starting asteroids
     while (k < start){
@@ -102,12 +100,20 @@ function draw() {
                     }
                     // Removes the asteroid if the radius is below 20 and adds score. This also removes the laser if an asteroid is hit
                     asteroids.splice(j, 1);
-                    score = score + (addScore*(1+(perMultiplier*times)));
-                    times = times + 1;
-                    realscore = score.toFixed(2);
-                    document.getElementById("realscore").innerHTML = +realscore;
-                    multiplier = multiplier + addMultiplier;
-                    document.getElementById("multiplier").innerHTML = +multiplier;
+                    if (score >= 1) {
+                        score = score + (addScore*(1+(perMultiplier*times)));
+                        times = times + 1;
+                        realscore = score.toFixed(2);
+                        document.getElementById("realscore").innerHTML = +realscore;
+                        multiplier = multiplier + addMultiplier;
+                        document.getElementById("multiplier").innerHTML = +multiplier;
+                    } else if (score < 0.9){
+                        score = score + 1;
+                        realscore = score.toFixed(2);
+                        multiplier = multiplier + addMultiplier;
+                        document.getElementById("multiplier").innerHTML = +multiplier;
+                        document.getElementById("realscore").innerHTML = +realscore;
+                    }
                     lasers.splice(i, 1);
                     break;
                 }
