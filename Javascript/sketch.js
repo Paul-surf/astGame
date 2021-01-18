@@ -16,9 +16,10 @@ var times = 1;                      // ! DO NOT TOUCH ! The amount of times you 
 
 var start = 5;                      // The amount of Asteroids that spawn at the start of the game.
 var AddAsteroid = 10;               // How many Asteroids that spawn + the start variable
-var perMultiplier = 0.05;           // How much the score multiplies every time an asteroid is destroyed
+var perMultiplier = 0.10;           // How much the score multiplies every time an asteroid is destroyed
 var addScore = 1;                   // The amount of points added each time an asteroid is destroyed
-var addMultiplier = 5;              // The multiplier on the screen
+
+var addMultiplier = perMultiplier*100;  // ! DO NOT TOUCH ! The multiplier on the screen
 
 document.getElementById("level").innerHTML = +level;
 document.getElementById("realscore").innerHTML = +realscore;
