@@ -12,10 +12,11 @@ var multiplier = 0;                 // ! DO NOT TOUCH ! The variable that shows 
 var k = 0;                          // ! DO NOT TOUCH ! This is the variable 
 var perlevel = 0;                   // ! DO NOT TOUCH ! The total amount of Astroids added every level. This value changes everytime the level changes.
 var level = 1;                      // ! DO NOT TOUCH ! What level you are on
+var times = 1;                      // ! DO NOT TOUCH ! The amount of times you hit an asteroid
 
 var start = 5;                      // The amount of Asteroids that spawn at the start of the game.
 var AddAsteroid = 10;               // How many Asteroids that spawn + the start variable
-var perMultiplier = 1.05;           // How much the score multiplies every time an asteroid is destroyed
+var perMultiplier = 0.05;           // How much the score multiplies every time an asteroid is destroyed
 var addScore = 1;                   // The amount of points added each time an asteroid is destroyed
 var addMultiplier = 5;              // The multiplier on the screen
 
@@ -30,6 +31,8 @@ function setup() {
     canvas.parent(game)
     bg = loadImage('pictures/galaxy.jpg')
     ship = new Ship();
+    multiplier = multiplier + addMultiplier;
+    document.getElementById("multiplier").innerHTML = +multiplier;
     
     // adds the starting asteroids
     while (k < start){
@@ -98,8 +101,8 @@ function draw() {
                     }
                     // Removes the asteroid if the radius is below 20 and adds score. This also removes the laser if an asteroid is hit
                     asteroids.splice(j, 1);
-                    score = score + addScore;
-                    score = score * perMultiplier;
+                    score = score + (addScore*(1+(perMultiplier*times)));
+                    times = times + 1;
                     realscore = score.toFixed(2);
                     document.getElementById("realscore").innerHTML = +realscore;
                     multiplier = multiplier + addMultiplier;
