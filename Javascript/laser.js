@@ -1,3 +1,4 @@
+// This function is used to make the lasers inside the "Sketch.js"
 function Laser(spos, angle) {
     this.pos = createVector(spos.x, spos.y);
     this.vel = p5.Vector.fromAngle(angle);

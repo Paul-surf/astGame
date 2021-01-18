@@ -15,18 +15,23 @@ var level = 1;                      // ! DO NOT TOUCH ! What level you are on
 
 var start = 5;                      // The amount of Asteroids that spawn at the start of the game.
 var AddAsteroid = 10;               // How many Asteroids that spawn + the start variable
-var perMultiplier = 1.01;           // How much the score multiplies every time an asteroid is destroyed
+var perMultiplier = 1.05;           // How much the score multiplies every time an asteroid is destroyed
+var addScore = 1;                   // The amount of points added each time an asteroid is destroyed
+var addMultiplier = 5;              // The multiplier on the screen
 
 document.getElementById("level").innerHTML = +level;
 document.getElementById("realscore").innerHTML = +realscore;
 document.getElementById("multiplier").innerHTML = +multiplier;
 
+
+// This is the setup function, which starts the game, by loading the ship and the asteroids at the start
 function setup() {
     var canvas = createCanvas(windowWidth, windowHeight);
     canvas.parent(game)
     bg = loadImage('pictures/galaxy.jpg')
     ship = new Ship();
     
+    // adds the starting asteroids
     while (k < start){
         k++;
         asteroids.push(new Asteroid());
@@ -38,11 +43,14 @@ function setup() {
 
 
 function draw() {
+    // Makes the background be the picture
     background(bg);
     
+    // Updates the amount of asteroids all the time
     aAmount = asteroids.length;
     document.getElementById("aAmount").innerHTML = +aAmount;
 
+    // If the amount of asteroids is equal to zero, then add another level and add asteroids based on the amount specified in the variables above
     if (asteroids.length == 0) {
         perlevel = perlevel + AddAsteroid;
         level = level + 1;
@@ -52,41 +60,49 @@ function draw() {
         }
     }
 
+    // This is collision detection between the ship and the asteroids, and the movement of the asteroids
     for (var i = 0; i < asteroids.length; i++) {
         if (ship.hits(asteroids[i])) {
-            //location.reload();
+            location.reload();
         }
         asteroids[i].position();
         asteroids[i].update();
         asteroids[i].edges();
     }
 
+    // This is the movement of the lasers and if the lasers go offscreen, it will remove the laser 
     for (var i = lasers.length-1; i >= 0; i--) {
         lasers[i].render();
         lasers[i].update();
         if (lasers[i].offscreen()) {
             lasers.splice(i, 1);
+
         } else {
             
+            // This is collision detection between the lasers and the asteroids. 
             for (var j = asteroids.length- 1; j >= 0; j--) {
                 if (lasers[i].hits(asteroids[j])) {
+
+                    // If the radius of the asteroid that has been hit is above 20, then split into 2 smaller ones
                     if (asteroids[j].r > 20) {
                         var newAsteroids = asteroids[j].breakup();
                         asteroids = asteroids.concat(newAsteroids);
                         aAmount = asteroids.length;
                         document.getElementById("aAmount").innerHTML = +aAmount;
                     }
+
+                    // Updating the amount of asteroids
                     if (asteroids[j].r <= 20) {
                         aAmount = asteroids.length;
-                        console.log(asteroids.length);
                         document.getElementById("aAmount").innerHTML = +aAmount;
                     }
+                    // Removes the asteroid if the radius is below 20 and adds score. This also removes the laser if an asteroid is hit
                     asteroids.splice(j, 1);
-                    score = score + 1;
+                    score = score + addScore;
                     score = score * perMultiplier;
                     realscore = score.toFixed(2);
                     document.getElementById("realscore").innerHTML = +realscore;
-                    multiplier = multiplier + 10;
+                    multiplier = multiplier + addMultiplier;
                     document.getElementById("multiplier").innerHTML = +multiplier;
                     lasers.splice(i, 1);
                     break;
@@ -100,7 +116,7 @@ function draw() {
 
 
 
-
+    // Updates the ship's movement and turns
     ship.render();
     ship.turn();
     ship.update();
@@ -117,6 +133,7 @@ function draw() {
 
     */
 }
+// A function to detect when a key is released
 function keyReleased() {
     if (keyCode == 68) {
         isRight = false
@@ -131,7 +148,7 @@ function keyReleased() {
         isShooting = false
     }
 }
-
+// a function to detect if a key is pressed
 function keyPressed() {
     if (keyCode == 68) {
         isRight = true
@@ -148,7 +165,7 @@ function keyPressed() {
     }
 }
 
-// Tallene betyder W A S D
+// The numbers mean W A S D
 // W = 87
 // A = 65
 // S = 83

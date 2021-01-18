@@ -1,17 +1,18 @@
+// This function is used to make the ship inside the "Sketch.js"
 function Ship() { 
-    this.pos = createVector(width / 2, height / 2)
-    this.r = 20
-    this.heading = 0;
-    this.rotation = 0
-    this.vel = createVector(0, 0)
-    this.isBoosting = false;
+    this.pos = createVector(width / 2, height / 2)              // Creates the x and y in the middle of the screen
+    this.r = 20                                                 // The radius
+    this.heading = 0;                                           // The direction it is facing
+    this.rotation = 0                                           // This makes it turn
+    this.vel = createVector(0, 0)                               // This creates x and y in 0, 0
+    this.isBoosting = false;                                    // Boolean to set isBoosting to false
 
-    this.boosting = function (b) {
+    this.boosting = function (b) {                              // Makes this.boosting into a function that is equal to this.isBoosting
         this.isBoosting = b;
     }
 
-    this.update = function () {
-        if (this.isBoosting) {
+    this.update = function () {                                 // This function updates the movement
+        if (this.isBoosting) {                                  // checks is the boolean value has changed to true
             this.boost();
         }
         this.pos.add(this.vel)
@@ -19,15 +20,15 @@ function Ship() {
 
     }
 
-    this.boost = function () {
-        var force = p5.Vector.fromAngle(this.heading);
-        force.mult(0.1)
-        this.vel.add(force);
+    this.boost = function () {                                  // This is the boost function that is used in the update function.
+        var force = p5.Vector.fromAngle(this.heading);          // This is what makes it move
+        force.mult(0.1)                                         // Multiplies "Force" by 0.1 to make it way slower
+        this.vel.add(force);                                    // This is what makes it move
     }
 
-    this.hits = function(asteroid) {
+    this.hits = function(asteroid) {                            // This is the function that is used in "sketch.js", to detect collision
         var d = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
-        if (d < this.r + asteroid.r) {
+        if (d < this.r + asteroid.r) {                          
             return true;
         } else {
             return false;
@@ -36,7 +37,7 @@ function Ship() {
 
 
 
-    this.render = function () {
+    this.render = function () {                                  // This function creates the ship
         push();
         translate(this.pos.x, this.pos.y);
         rotate(this.heading + PI / 2);
@@ -53,7 +54,7 @@ function Ship() {
         line(0, this.r - 5, 0, this.r - 15)
         stroke(150)
         pop();
-        if (isUp) {
+        if (isUp) {                                              // Checks if the boolean variable "isUp" is true
             push();
             translate(this.pos.x, this.pos.y);
             rotate(this.heading + PI / 2);
@@ -66,7 +67,7 @@ function Ship() {
         }
     }
 
-    this.movement = function () {
+    this.movement = function () {                               // This is the function that controls the ship's turning and movement 
         if (isUp) {
             push();
             ship.boosting(true)
@@ -75,10 +76,10 @@ function Ship() {
          ship.boosting(isUp);
        
         if (isRight) {
-            ship.setRotation(0.1);
+            ship.setRotation(0.075);
         }
         if (isLeft) {
-            ship.setRotation(-0.1);
+            ship.setRotation(-0.075);
         }
         if (!isLeft && !isRight || isLeft && isRight) {
             ship.setRotation(0)
@@ -86,7 +87,7 @@ function Ship() {
         
     }
 
-    this.edges = function () {
+    this.edges = function () {                                    // If the asteroids leave the screen the are moved to the other side, to keep them on the screen
         if (this.pos.x > width + this.r) {
             this.pos.x = -this.r;
         } else if (this.pos.x < -this.r) {
