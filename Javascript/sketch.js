@@ -10,8 +10,11 @@ var score = 0;
 var realscore = score.toFixed(2);
 var multiplier = 0
 var k = 0;
+var perlevel = 0;
+var start = 5;
+var level = 1;
 
-
+document.getElementById("level").innerHTML = +level;
 document.getElementById("realscore").innerHTML = +realscore;
 document.getElementById("multiplier").innerHTML = +multiplier;
 
@@ -23,12 +26,12 @@ function setup() {
     bg = loadImage('pictures/galaxy.jpg')
     ship = new Ship();
     
-    while (k < 25){
+    while (k < start){
         k++;
-        var aAmount = k;
-        document.getElementById("aAmount").innerHTML = +aAmount;
         asteroids.push(new Asteroid());
-        console.log(k);
+        var aAmount = asteroids.length;
+        document.getElementById("aAmount").innerHTML = +aAmount;
+        console.log(asteroids.length);
     }
 }
 
@@ -36,10 +39,21 @@ function setup() {
 function draw() {
     background(bg);
     
+    aAmount = asteroids.length;
+    document.getElementById("aAmount").innerHTML = +aAmount;
+
+    if (asteroids.length == 0) {
+        perlevel = perlevel + 5;
+        level = level + 1;
+        document.getElementById("level").innerHTML = +level;
+        while (asteroids.length < (start + perlevel)) {
+            asteroids.push(new Asteroid());
+        }
+    }
 
     for (var i = 0; i < asteroids.length; i++) {
         if (ship.hits(asteroids[i])) {
-            location.reload();
+            //location.reload();
         }
         asteroids[i].position();
         asteroids[i].update();
@@ -58,13 +72,13 @@ function draw() {
                     if (asteroids[j].r > 20) {
                         var newAsteroids = asteroids[j].breakup();
                         asteroids = asteroids.concat(newAsteroids);
-                        k = k + 1;
-                        aAmount = k;
-                        console.log(k);
+                        aAmount = asteroids.length;
                         document.getElementById("aAmount").innerHTML = +aAmount;
                     }
                     if (asteroids[j].r <= 20) {
-                        asteroids.push(new Asteroid());
+                        aAmount = asteroids.length;
+                        console.log(asteroids.length);
+                        document.getElementById("aAmount").innerHTML = +aAmount;
                     }
                     asteroids.splice(j, 1);
                     score = score + 1;
