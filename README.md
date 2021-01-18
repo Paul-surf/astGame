@@ -21,4 +21,4 @@ to do list
 - highscore
 - lives
 - death explosion
-- levels
+- Add different difficulties
