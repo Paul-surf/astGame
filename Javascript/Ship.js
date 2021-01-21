@@ -47,27 +47,22 @@ function Ship() {
         fill(100);
         stroke(150);
         if (shieldTime > 0) {
-            strokes = stroke('yellow');
+            fill(0, 200, 255, 70);
+            stroke(0, 50, 255)
+            circle(this.r-20, this.r-15, 90);
         }
+        fill(100);
+        stroke(150);
         triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
         stroke(150)
         fill(80)
-        if (shieldTime > 0) {
-            strokes = stroke('yellow');
-        }
         triangle(-this.r + 13.5, this.r - 25, this.r - 13.5, this.r - 25, 0, -this.r)
         stroke(150)
         fill('white')
-        if (shieldTime > 0) {
-            strokes = stroke('yellow');
-        }
         line(-this.r + 2, this.r- 20, -this.r + 2, this.r - 5)
         line(this.r - 2, this.r - 20, this.r - 2, this.r - 5)
         fill('black')
         stroke(200)
-        if (shieldTime > 0) {
-            strokes = stroke('yellow');
-        }
         line(0, this.r - 5, 0, this.r - 15)
         stroke(150)
         pop();
@@ -77,9 +72,9 @@ function Ship() {
             rotate(this.heading + PI / 2);
             noStroke();
             fill('red')
-            triangle(-this.r + 5, this.r, this.r - 5, this.r , 0, -this.r + 60);
+            triangle(-this.r + 5, this.r, this.r - 5, this.r , 0, -this.r + 65);
             fill('orange');
-            triangle(-this.r + 13, this.r, this.r - 13, this.r , 0, -this.r + 50);
+            triangle(-this.r + 13, this.r, this.r - 13, this.r , 0, -this.r + 55);
             pop();
         }
     }
