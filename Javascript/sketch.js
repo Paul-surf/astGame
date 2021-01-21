@@ -30,6 +30,7 @@ var perMultiplier = 0.10;           // How much the score multiplies every time 
 var addScore = 1;                   // The amount of points added each time an asteroid is destroyed
 var shieldSekunder = 3;             // The amount of time you are shielded
 var lives = 3;                      // The amount of lives you have
+var onScreenBullets = 15;           // The amount of bullets you can have on the screen
 
 var shieldTime = fps * shieldSekunder;  // ! DO NOT TOUCH ! The shield
 var addMultiplier = perMultiplier*100;  // ! DO NOT TOUCH ! The multiplier on the screen
@@ -247,7 +248,9 @@ function keyPressed() {
     }
     if (key == ' ') {
         if (lives > 0) {
-            lasers.push(new Laser(ship.pos, ship.heading));
+            if (lasers.length < onScreenBullets) {
+                lasers.push(new Laser(ship.pos, ship.heading));
+            }
         }
         if (lives < 1) {
             colorTime = 1000;
