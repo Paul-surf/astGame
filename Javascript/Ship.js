@@ -49,7 +49,7 @@ function Ship() {
         if (shieldTime > 0) {
             fill(0, 200, 255, 70);
             stroke(0, 50, 255)
-            circle(this.r-20, this.r-15, 90);
+            circle(0, 5, 90);
         }
         fill(100);
         stroke(150);
