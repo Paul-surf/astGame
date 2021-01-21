@@ -38,3 +38,8 @@ p {
     z-index: 1000;
     font-size: 30px;
 }
+
+button {
+    z-index: 1000;
+    background: red;
+}

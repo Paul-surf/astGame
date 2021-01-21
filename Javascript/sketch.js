@@ -5,6 +5,7 @@ var isRight = false;                // ! DO NOT TOUCH ! Boolean for the Right fu
 var isLeft = false;                 // ! DO NOT TOUCH ! Boolean for the Left function
 var isUp = false;                   // ! DO NOT TOUCH ! Boolean for the Forward function
 var isShooting = false;             // ! DO NOT TOUCH ! Boolean for the Shooting function
+const btn = document.createElement('button');
 var bg;                             // ! DO NOT TOUCH ! Variable for the picture in the background
 var score = 0;                      // ! DO NOT TOUCH ! The same as "realscore", but with a lot of decimals
 var realscore = score.toFixed(2);   // ! DO NOT TOUCH ! This variable is the one that shows the current score with two decimals on the screen
@@ -14,15 +15,21 @@ var perlevel = 0;                   // ! DO NOT TOUCH ! The total amount of Astr
 var level = 1;                      // ! DO NOT TOUCH ! What level you are on
 var times = 1;                      // ! DO NOT TOUCH ! The amount of times you hit an asteroid
 var fps = 60;                       // ! DO NOT TOUCH ! The amount of times a function gets called per second
+var timer = 255;                    // ! DO NOT TOUCH !
+var a = false;                      // ! DO NOT TOUCH !
+var colorTime = timer;              // ! DO NOT TOUCH !
+var SAVE_KEY_SCORE = 'Highscore'    // ! DO NOT TOUCH !
+var scoreStr = localStorage.getItem(SAVE_KEY_SCORE);    // ! DO NOT TOUCH !
 var strokes;                        // ! DO NOT TOUCH !
 var aAmount = asteroids.length;     // ! DO NOT TOUCH !
+var scoreHigh = 0;                  // ! DO NOT TOUCH !
 
 var start = 5;                      // The amount of Asteroids that spawn at the start of the game.
 var AddAsteroid = 10;               // How many Asteroids that spawn + the start variable
 var perMultiplier = 0.10;           // How much the score multiplies every time an asteroid is destroyed
 var addScore = 1;                   // The amount of points added each time an asteroid is destroyed
 var shieldSekunder = 3;             // The amount of time you are shielded
-var lives = 3;                      // The amount of lives you have
+var lives = 0;                      // The amount of lives you have
 
 var shieldTime = fps * shieldSekunder;  // ! DO NOT TOUCH ! The shield
 var addMultiplier = perMultiplier*100;  // ! DO NOT TOUCH ! The multiplier on the screen
@@ -47,40 +54,29 @@ function draw() {
     // Makes the background be the picture
     background(bg);
 
+    if (colorTime > 0 && a == false) {
+        colorTime = colorTime - 3;
+        a = false;
+    } else {
+        a = true;
+    }
+    if (colorTime < timer && a == true) {
+        colorTime = colorTime + 3;
+        a = true;
+    } else {
+        a = false;
+    }
+
+    if (scoreStr !== null) {
+        scoreHigh = parseFloat(scoreStr).toFixed(2);
+    } 
+    if (scoreStr == null) {
+        scoreHigh = 0;
+    }
     
-    
-
-    push();
-    textSize(30);
-    fill('Yellow'); 
-    textAlign(LEFT);
-    text('Score:' + ' ' + realscore, 10, 40)
-    text('Multiplier:' + ' ' + multiplier + '%', 10, 80)
-    text('Asteroids:' + ' ' + asteroids.length, 10, 120)
-    text('Lives:' + ' ' + lives, 10, 160);
-    text('Level:' + ' ' + level, 10, 200);
-    pop();
-
-
-
-    // Updates the scores all the time
-    //document.getElementById("aAmount").innerHTML = aAmount;
-    //document.getElementById("level").innerHTML = level;
-    //document.getElementById("realscore").innerHTML = realscore;
-    //document.getElementById("multiplier").innerHTML = multiplier;
-    //document.getElementById("lives").innerHTML = lives;
-
-    // If the amount of asteroids is equal to zero, then add another level and add asteroids based on the amount specified in the variables above
-    if (lives > 0) {
-        if (asteroids.length == 0) {
-            perlevel += AddAsteroid;
-            level++;
-            ship.pos = createVector(width / 2, height / 2); 
-            shieldTime = fps * shieldSekunder;
-            while (asteroids.length < (start + perlevel)) {
-                asteroids.push(new Asteroid());
-            }
-        }
+    if (score > scoreHigh) {
+        scoreHigh = score.toFixed(2);
+        localStorage.setItem(SAVE_KEY_SCORE, scoreHigh);
     }
 
     // This is collision detection between the ship and the asteroids, and the movement of the asteroids
@@ -88,6 +84,7 @@ function draw() {
         if (ship.hits(asteroids[i])) {
             if (shieldTime < 1) {
                 ship.pos = createVector(width / 2, height / 2); 
+                ship.vel = createVector(0, 0); 
                 shieldTime = fps * shieldSekunder;
                 lives--;
             }
@@ -96,6 +93,41 @@ function draw() {
         asteroids[i].update();
         asteroids[i].edges();
     }
+    
+    if (lives > 0) {
+        push();
+        textSize(30);
+        fill('Yellow'); 
+        textAlign(LEFT);
+        text('Score:' + ' ' + realscore, 10, 40)
+        text('Multiplier:' + ' ' + multiplier + '%', 10, 80)
+        text('Asteroids:' + ' ' + asteroids.length, 10, 120)
+        text('Lives:' + ' ' + lives, 10, 160);
+        text('Level:' + ' ' + level, 10, 200);
+        pop();
+        push();
+        textSize(30);
+        fill('Yellow'); 
+        textAlign(CENTER);
+        text('Highscore' + ' ' + scoreHigh, width/2, 40)
+        pop();
+    }
+
+
+    // If the amount of asteroids is equal to zero, then add another level and add asteroids based on the amount specified in the variables above
+    if (lives > 0) {
+        if (asteroids.length == 0) {
+            perlevel += AddAsteroid;
+            level++;
+            ship.pos = createVector(width / 2, height / 2); 
+            ship.vel = createVector(0, 0); 
+            shieldTime = fps * shieldSekunder;
+            while (asteroids.length < (start + perlevel)) {
+                asteroids.push(new Asteroid());
+            }
+        }
+    }
+    
 
     // This is the movement of the lasers and if the lasers go offscreen, it will remove the laser 
     for (var i = lasers.length-1; i >= 0; i--) {
@@ -158,10 +190,26 @@ function draw() {
         asteroids.length = 0;
         push();
         textSize(100);
-        fill('red'); 
+        fill('Yellow'); 
         textAlign(CENTER);
-        text('Game Over', width/2, height/2);
+        text('Game Over', width/2, height/3);
         pop();
+        push();
+        textSize(30);
+        fill('Yellow'); 
+        textAlign(CENTER);
+        text('Highscore' + ' ' + scoreHigh, width/2, height/3 + 50)
+        text('Score:' + ' ' + realscore, width/2, height/3 + 100)
+        text('Multiplier:' + ' ' + multiplier + '%', width/2, height/3 + 150)
+        text('Level:' + ' ' + level, width/2, height/3 + 200);
+        fill(255-colorTime, 255-colorTime, 0)
+        text('Press Space To Restart', width/2, height/3 + 400);
+
+
+        pop();
+        if (key == ' ') {
+            location.reload();
+        }
     }
 
 
@@ -203,8 +251,9 @@ function keyPressed() {
         isUp = true
     }
     if (key == ' ') {
-        //isShooting = true¨
-        lasers.push(new Laser(ship.pos, ship.heading));
+        if (lives > 0) {
+            lasers.push(new Laser(ship.pos, ship.heading));
+        }
     }
     if (keyCode == 80){
         window.location.href = "https://www.youtube.com/watch?v=iik25wqIuFo&ab_channel=Rickroll%2Cbutwithadifferentlink"
