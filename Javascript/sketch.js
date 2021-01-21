@@ -253,9 +253,6 @@ function keyPressed() {
             location.reload();
         }
     }
-    if (keyCode == 80){
-        window.location.href = "https://www.youtube.com/watch?v=iik25wqIuFo&ab_channel=Rickroll%2Cbutwithadifferentlink"
-    }
 }
 
 // The numbers mean W A S D
