@@ -204,12 +204,7 @@ function draw() {
         text('Level:' + ' ' + level, width/2, height/3 + 200);
         fill(255-colorTime, 255-colorTime, 0)
         text('Press Space To Restart', width/2, height/3 + 400);
-
-
         pop();
-        if (key == ' ') {
-            location.reload();
-        }
     }
 
 
@@ -236,7 +231,7 @@ function keyReleased() {
         isUp = false
     }
     if (key == ' ') {
-        isShooting = false
+        
     }
 }
 // a function to detect if a key is pressed
@@ -253,6 +248,9 @@ function keyPressed() {
     if (key == ' ') {
         if (lives > 0) {
             lasers.push(new Laser(ship.pos, ship.heading));
+        }
+        if (lives < 1) {
+            location.reload();
         }
     }
     if (keyCode == 80){
