@@ -250,6 +250,8 @@ function keyPressed() {
             lasers.push(new Laser(ship.pos, ship.heading));
         }
         if (lives < 1) {
+            colorTime = 1000;
+            a = false;
             window.location.href = "https://paul-surf.github.io/astGame/sgame.html"
         }
     }
