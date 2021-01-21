@@ -29,7 +29,7 @@ var AddAsteroid = 10;               // How many Asteroids that spawn + the start
 var perMultiplier = 0.10;           // How much the score multiplies every time an asteroid is destroyed
 var addScore = 1;                   // The amount of points added each time an asteroid is destroyed
 var shieldSekunder = 3;             // The amount of time you are shielded
-var lives = 0;                      // The amount of lives you have
+var lives = 3;                      // The amount of lives you have
 
 var shieldTime = fps * shieldSekunder;  // ! DO NOT TOUCH ! The shield
 var addMultiplier = perMultiplier*100;  // ! DO NOT TOUCH ! The multiplier on the screen
