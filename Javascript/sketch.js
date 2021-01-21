@@ -5,7 +5,6 @@ var isRight = false;                // ! DO NOT TOUCH ! Boolean for the Right fu
 var isLeft = false;                 // ! DO NOT TOUCH ! Boolean for the Left function
 var isUp = false;                   // ! DO NOT TOUCH ! Boolean for the Forward function
 var isShooting = false;             // ! DO NOT TOUCH ! Boolean for the Shooting function
-const btn = document.createElement('button');
 var bg;                             // ! DO NOT TOUCH ! Variable for the picture in the background
 var score = 0;                      // ! DO NOT TOUCH ! The same as "realscore", but with a lot of decimals
 var realscore = score.toFixed(2);   // ! DO NOT TOUCH ! This variable is the one that shows the current score with two decimals on the screen
@@ -59,7 +58,6 @@ function draw() {
 
     if (laserTimer >= 1) {
         laserTimer--;
-        console.log(laserTimer);
     }
     if (laserTimer == 290) {
         laserTimerCounter = 5;
@@ -109,17 +107,24 @@ function draw() {
 
     // This is collision detection between the ship and the asteroids, and the movement of the asteroids
     for (var i = 0; i < asteroids.length; i++) {
+        asteroids[i].position();
+        asteroids[i].update();
+        asteroids[i].edges();
         if (ship.hits(asteroids[i])) {
             if (shieldTime < 1) {
+                push();
+                noStroke();
+                fill(200, 0, 0);
+                circle(ship.pos.x, ship.pos.y, 80);
+                fill(255, 100, 0);
+                circle(ship.pos.x, ship.pos.y, 40);
+                pop();
                 ship.pos = createVector(width / 2, height / 2); 
                 ship.vel = createVector(0, 0); 
                 shieldTime = fps * shieldSekunder;
                 lives--;
             }
         }
-        asteroids[i].position();
-        asteroids[i].update();
-        asteroids[i].edges();
     }
     
     if (lives > 0) {
@@ -167,16 +172,25 @@ function draw() {
     for (var i = lasers.length-1; i >= 0; i--) {
         lasers[i].render();
         lasers[i].update();
+
+        
         if (lasers[i].offscreen()) {
             lasers.splice(i, 1);
-
+            
         } else {
             
             // This is collision detection between the lasers and the asteroids. 
             for (var j = asteroids.length- 1; j >= 0; j--) {
                 if (lasers[i].hits(asteroids[j])) {
+                        push();
+                        noStroke();
+                        fill(200, 0, 0);
+                        circle(lasers[i].pos.x, lasers[i].pos.y, 40);
+                        fill(255, 100, 0);
+                        circle(lasers[i].pos.x, lasers[i].pos.y, 20);
+                        pop();
 
-                    // If the radius of the asteroid that has been hit is above 20, then split into 2 smaller ones
+                    // If the radius of thae asteroid that has been hit is above 20, then split into 2 smaller ones
                     if (asteroids[j].r > 20) {
                         var newAsteroids = asteroids[j].breakup();
                         asteroids = asteroids.concat(newAsteroids);
@@ -199,8 +213,8 @@ function draw() {
                         realscore = score.toFixed(2);
                         multiplier = multiplier + addMultiplier;
                     }
-                    lasers.splice(i, 1);
-                    break;
+                        lasers.splice(i, 1);
+                        break;
                 }
             }
         } 

@@ -1,4 +1,6 @@
 // This function is used to make the lasers inside the "Sketch.js"
+var d;
+
 function Laser(spos, angle) {
     this.pos = createVector(spos.x, spos.y);
     this.vel = p5.Vector.fromAngle(angle);
@@ -17,7 +19,7 @@ function Laser(spos, angle) {
     } 
 
         this.hits = function(Asteroid) {
-            var d = dist(this.pos.x, this.pos.y, Asteroid.pos.x, Asteroid.pos.y);
+            d = dist(this.pos.x, this.pos.y, Asteroid.pos.x, Asteroid.pos.y);
             if (d < Asteroid.r) {
                 return true;
             } else {
