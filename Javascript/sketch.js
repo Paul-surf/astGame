@@ -23,7 +23,7 @@ var scoreStr = localStorage.getItem(SAVE_KEY_SCORE);    // ! DO NOT TOUCH !
 var strokes;                        // ! DO NOT TOUCH !
 var aAmount = asteroids.length;     // ! DO NOT TOUCH !
 var scoreHigh = 0;                  // ! DO NOT TOUCH !
-var laserTimer = fps * 3 + 1        // ! DO NOT TOUCH !
+var laserTimer = fps * 5 + 1        // ! DO NOT TOUCH !
 var laserTimerCounter;              // ! DO NOT TOUCH !
 
 var start = 5;                      // The amount of Asteroids that spawn at the start of the game.
@@ -61,7 +61,13 @@ function draw() {
         laserTimer--;
         console.log(laserTimer);
     }
-    if (laserTimer == 170) {
+    if (laserTimer == 290) {
+        laserTimerCounter = 5;
+    }
+    if (laserTimer == 240) {
+        laserTimerCounter = 4;
+    }
+    if (laserTimer == 180) {
         laserTimerCounter = 3;
     }
     if (laserTimer == 120) {
@@ -302,7 +308,7 @@ function keyPressed() {
                     lasers.push(new Laser(ship.pos, ship.heading - 0.2));
                     lasers.push(new Laser(ship.pos, ship.heading - 0.25));
                     lasers.push(new Laser(ship.pos, ship.heading - 0.3));
-                    laserTimer = fps * 3;
+                    laserTimer = fps * 5;
                 }
             }
         }
