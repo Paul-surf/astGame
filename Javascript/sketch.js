@@ -13,17 +13,19 @@ var k = 0;                          // ! DO NOT TOUCH ! This is the variable
 var perlevel = 0;                   // ! DO NOT TOUCH ! The total amount of Astroids added every level. This value changes everytime the level changes.
 var level = 1;                      // ! DO NOT TOUCH ! What level you are on
 var times = 1;                      // ! DO NOT TOUCH ! The amount of times you hit an asteroid
+var fps = 60;                       // ! DO NOT TOUCH ! The amount of times a function gets called per second
+var strokes;                        // ! DO NOT TOUCH !
+var aAmount = asteroids.length;     // ! DO NOT TOUCH !
 
 var start = 5;                      // The amount of Asteroids that spawn at the start of the game.
 var AddAsteroid = 10;               // How many Asteroids that spawn + the start variable
 var perMultiplier = 0.10;           // How much the score multiplies every time an asteroid is destroyed
 var addScore = 1;                   // The amount of points added each time an asteroid is destroyed
+var shieldSekunder = 3;             // The amount of time you are shielded
+var lives = 3;                      // The amount of lives you have
 
+var shieldTime = fps * shieldSekunder;  // ! DO NOT TOUCH ! The shield
 var addMultiplier = perMultiplier*100;  // ! DO NOT TOUCH ! The multiplier on the screen
-
-document.getElementById("level").innerHTML = +level;
-document.getElementById("realscore").innerHTML = +realscore;
-document.getElementById("multiplier").innerHTML = +multiplier;
 
 
 // This is the setup function, which starts the game, by loading the ship and the asteroids at the start
@@ -37,9 +39,6 @@ function setup() {
     while (k < start){
         k++;
         asteroids.push(new Asteroid());
-        var aAmount = asteroids.length;
-        document.getElementById("aAmount").innerHTML = +aAmount;
-        console.log(asteroids.length);
     }
 }
 
@@ -47,25 +46,51 @@ function setup() {
 function draw() {
     // Makes the background be the picture
     background(bg);
+
     
-    // Updates the amount of asteroids all the time
-    aAmount = asteroids.length;
-    document.getElementById("aAmount").innerHTML = +aAmount;
+    
+
+    push();
+    textSize(30);
+    fill('Yellow'); 
+    textAlign(LEFT);
+    text('Score:' + ' ' + realscore, 10, 40)
+    text('Multiplier:' + ' ' + multiplier + '%', 10, 80)
+    text('Asteroids:' + ' ' + asteroids.length, 10, 120)
+    text('Lives:' + ' ' + lives, 10, 160);
+    text('Level:' + ' ' + level, 10, 200);
+    pop();
+
+
+
+    // Updates the scores all the time
+    //document.getElementById("aAmount").innerHTML = aAmount;
+    //document.getElementById("level").innerHTML = level;
+    //document.getElementById("realscore").innerHTML = realscore;
+    //document.getElementById("multiplier").innerHTML = multiplier;
+    //document.getElementById("lives").innerHTML = lives;
 
     // If the amount of asteroids is equal to zero, then add another level and add asteroids based on the amount specified in the variables above
-    if (asteroids.length == 0) {
-        perlevel = perlevel + AddAsteroid;
-        level = level + 1;
-        document.getElementById("level").innerHTML = +level;
-        while (asteroids.length < (start + perlevel)) {
-            asteroids.push(new Asteroid());
+    if (lives > 0) {
+        if (asteroids.length == 0) {
+            perlevel += AddAsteroid;
+            level++;
+            ship.pos = createVector(width / 2, height / 2); 
+            shieldTime = fps * shieldSekunder;
+            while (asteroids.length < (start + perlevel)) {
+                asteroids.push(new Asteroid());
+            }
         }
     }
 
     // This is collision detection between the ship and the asteroids, and the movement of the asteroids
     for (var i = 0; i < asteroids.length; i++) {
         if (ship.hits(asteroids[i])) {
-            location.reload();
+            if (shieldTime < 1) {
+                ship.pos = createVector(width / 2, height / 2); 
+                shieldTime = fps * shieldSekunder;
+                lives--;
+            }
         }
         asteroids[i].position();
         asteroids[i].update();
@@ -90,13 +115,11 @@ function draw() {
                         var newAsteroids = asteroids[j].breakup();
                         asteroids = asteroids.concat(newAsteroids);
                         aAmount = asteroids.length;
-                        document.getElementById("aAmount").innerHTML = +aAmount;
                     }
 
                     // Updating the amount of asteroids
                     if (asteroids[j].r <= 20) {
                         aAmount = asteroids.length;
-                        document.getElementById("aAmount").innerHTML = +aAmount;
                     }
                     // Removes the asteroid if the radius is below 20 and adds score. This also removes the laser if an asteroid is hit
                     asteroids.splice(j, 1);
@@ -104,15 +127,11 @@ function draw() {
                         score = score + (addScore*(1+(perMultiplier*times)));
                         times = times + 1;
                         realscore = score.toFixed(2);
-                        document.getElementById("realscore").innerHTML = +realscore;
                         multiplier = multiplier + addMultiplier;
-                        document.getElementById("multiplier").innerHTML = +multiplier;
                     } else if (score < 0.9){
                         score = score + 1;
                         realscore = score.toFixed(2);
                         multiplier = multiplier + addMultiplier;
-                        document.getElementById("multiplier").innerHTML = +multiplier;
-                        document.getElementById("realscore").innerHTML = +realscore;
                     }
                     lasers.splice(i, 1);
                     break;
@@ -127,11 +146,25 @@ function draw() {
 
 
     // Updates the ship's movement and turns
-    ship.render();
-    ship.turn();
-    ship.update();
-    ship.edges();
-    ship.movement();
+    if (lives > 0) {
+        ship.render();
+        ship.turn();
+        ship.update();
+        ship.edges();
+        ship.movement();
+    }
+
+    if (lives < 1) {
+        asteroids.length = 0;
+        push();
+        textSize(100);
+        fill('red'); 
+        textAlign(CENTER);
+        text('Game Over', width/2, height/2);
+        pop();
+    }
+
+
 
 
     /* if (isShooting) {
