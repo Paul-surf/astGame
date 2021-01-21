@@ -51,15 +51,16 @@ function draw() {
     text('A  -  Left', width/2 - 75, height/5 + 330);
     text('D  -  Right', width/2 - 75, height/5 + 360);
     text('Space  -  Shoot', width/2 - 75, height/5 + 390);
+    text('C  -  Ability', width/2 - 75, height/5 + 420);
     pop();
 
     push();
     stroke('Yellow');
     strokeWeight(2);
-    line(width/2 - 120, height/5 + 270, width/2 - 120, height/5 + 400);
-    line(width/2 + 120, height/5 + 270, width/2 + 120, height/5 + 400); 
+    line(width/2 - 120, height/5 + 270, width/2 - 120, height/5 + 430);
+    line(width/2 + 120, height/5 + 270, width/2 + 120, height/5 + 430); 
     line(width/2 - 120, height/5 + 270, width/2 + 120, height/5 + 270); 
-    line(width/2 - 120, height/5 + 400, width/2 + 120, height/5 + 400); 
+    line(width/2 - 120, height/5 + 430, width/2 + 120, height/5 + 430); 
     pop();
 
     ship1.render();
