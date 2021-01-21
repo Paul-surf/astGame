@@ -19,6 +19,6 @@ The goal of the game, is to shoot all the asteroids, while dodging the them.
 to do list
 - shop / skill tree
 - highscore
-- lives
 - death explosion
 - Add different difficulties
+- Play again option
