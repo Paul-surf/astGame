@@ -23,6 +23,8 @@ var scoreStr = localStorage.getItem(SAVE_KEY_SCORE);    // ! DO NOT TOUCH !
 var strokes;                        // ! DO NOT TOUCH !
 var aAmount = asteroids.length;     // ! DO NOT TOUCH !
 var scoreHigh = 0;                  // ! DO NOT TOUCH !
+var laserTimer = fps * 3 + 1        // ! DO NOT TOUCH !
+var laserTimerCounter;              // ! DO NOT TOUCH !
 
 var start = 5;                      // The amount of Asteroids that spawn at the start of the game.
 var AddAsteroid = 10;               // How many Asteroids that spawn + the start variable
@@ -54,6 +56,25 @@ function setup() {
 function draw() {
     // Makes the background be the picture
     background(bg);
+
+    if (laserTimer >= 1) {
+        laserTimer--;
+        console.log(laserTimer);
+    }
+    if (laserTimer == 170) {
+        laserTimerCounter = 3;
+    }
+    if (laserTimer == 120) {
+        laserTimerCounter = 2;
+    }
+    if (laserTimer == 60) {
+        laserTimerCounter = 1;
+    }
+    if (laserTimer == 0) {
+        laserTimerCounter = 'Ready!';
+    }
+    
+
 
     if (colorTime > 0 && a == false) {
         colorTime = colorTime - 3;
@@ -111,6 +132,12 @@ function draw() {
         fill('Yellow'); 
         textAlign(CENTER);
         text('Highscore' + ' ' + scoreHigh, width/2, 40)
+        pop();
+        push();
+        textSize(30);
+        fill('Yellow'); 
+        textAlign(CENTER);
+        text('Ability:' + ' ' + laserTimerCounter, width/2, height/10*9.5)
         pop();
     }
 
@@ -256,6 +283,28 @@ function keyPressed() {
             colorTime = 1000;
             a = false;
             window.location.href = "https://paul-surf.github.io/astGame/sgame.html"
+        }
+    }
+    if (key == 'c') {
+        if (lives > 0) {
+            if (lasers.length < onScreenBullets) {
+                if (laserTimer < 1) {
+                    lasers.push(new Laser(ship.pos, ship.heading + 0.3));
+                    lasers.push(new Laser(ship.pos, ship.heading + 0.25));
+                    lasers.push(new Laser(ship.pos, ship.heading + 0.2));
+                    lasers.push(new Laser(ship.pos, ship.heading + 0.15));
+                    lasers.push(new Laser(ship.pos, ship.heading + 0.1));
+                    lasers.push(new Laser(ship.pos, ship.heading + 0.05));
+                    lasers.push(new Laser(ship.pos, ship.heading));
+                    lasers.push(new Laser(ship.pos, ship.heading - 0.05));
+                    lasers.push(new Laser(ship.pos, ship.heading - 0.1));
+                    lasers.push(new Laser(ship.pos, ship.heading - 0.15));
+                    lasers.push(new Laser(ship.pos, ship.heading - 0.2));
+                    lasers.push(new Laser(ship.pos, ship.heading - 0.25));
+                    lasers.push(new Laser(ship.pos, ship.heading - 0.3));
+                    laserTimer = fps * 3;
+                }
+            }
         }
     }
 }
