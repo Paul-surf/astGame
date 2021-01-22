@@ -1,29 +1,37 @@
-var ship;                           // ! DO NOT TOUCH ! Variable for the ship
-var asteroids = [];                 // ! DO NOT TOUCH ! Array for the amount of Asteroids
-var lasers = [];                    // ! DO NOT TOUCH ! Array for the amount Lasers
-var isRight = false;                // ! DO NOT TOUCH ! Boolean for the Right function
-var isLeft = false;                 // ! DO NOT TOUCH ! Boolean for the Left function
-var isUp = false;                   // ! DO NOT TOUCH ! Boolean for the Forward function
-var isShooting = false;             // ! DO NOT TOUCH ! Boolean for the Shooting function
-var bg;                             // ! DO NOT TOUCH ! Variable for the picture in the background
-var score = 0;                      // ! DO NOT TOUCH ! The same as "realscore", but with a lot of decimals
-var realscore = score.toFixed(2);   // ! DO NOT TOUCH ! This variable is the one that shows the current score with two decimals on the screen
-var multiplier = 0;                 // ! DO NOT TOUCH ! The variable that shows the amount of multiplier on the screen
-var k = 0;                          // ! DO NOT TOUCH ! This is the variable 
-var perlevel = 0;                   // ! DO NOT TOUCH ! The total amount of Astroids added every level. This value changes everytime the level changes.
-var level = 1;                      // ! DO NOT TOUCH ! What level you are on
-var times = 1;                      // ! DO NOT TOUCH ! The amount of times you hit an asteroid
-var fps = 60;                       // ! DO NOT TOUCH ! The amount of times a function gets called per second
-var timer = 255;                    // ! DO NOT TOUCH !
-var a = false;                      // ! DO NOT TOUCH !
-var colorTime = timer;              // ! DO NOT TOUCH !
-var SAVE_KEY_SCORE = 'Highscore'    // ! DO NOT TOUCH !
+var ship;                               // ! DO NOT TOUCH ! Variable for the ship
+var asteroids = [];                     // ! DO NOT TOUCH ! Array for the amount of Asteroids
+var lasers = [];                        // ! DO NOT TOUCH ! Array for the amount Lasers
+var powerUpHeal = [];                        // ! DO NOT TOUCH !
+var isRight = false;                    // ! DO NOT TOUCH ! Boolean for the Right function
+var isLeft = false;                     // ! DO NOT TOUCH ! Boolean for the Left function
+var isUp = false;                       // ! DO NOT TOUCH ! Boolean for the Forward function
+var isShooting = false;                 // ! DO NOT TOUCH ! Boolean for the Shooting function
+var bg;                                 // ! DO NOT TOUCH ! Variable for the picture in the background
+var score = 0;                          // ! DO NOT TOUCH ! The same as "realscore", but with a lot of decimals
+var realscore = score.toFixed(2);       // ! DO NOT TOUCH ! This variable is the one that shows the current score with two decimals on the screen
+var multiplier = 0;                     // ! DO NOT TOUCH ! The variable that shows the amount of multiplier on the screen
+var k = 0;                              // ! DO NOT TOUCH ! This is the variable 
+var perlevel = 0;                       // ! DO NOT TOUCH ! The total amount of Astroids added every level. This value changes everytime the level changes.
+var level = 1;                          // ! DO NOT TOUCH ! What level you are on
+var times = 1;                          // ! DO NOT TOUCH ! The amount of times you hit an asteroid
+var fps = 60;                           // ! DO NOT TOUCH ! The amount of times a function gets called per second
+var timer = 255;                        // ! DO NOT TOUCH !
+var a = false;                          // ! DO NOT TOUCH !
+var colorTime = timer;                  // ! DO NOT TOUCH !
+var colorTime2 = 0;                 // ! DO NOT TOUCH !
+var SAVE_KEY_SCORE = 'Highscore'        // ! DO NOT TOUCH !
 var scoreStr = localStorage.getItem(SAVE_KEY_SCORE);    // ! DO NOT TOUCH !
-var strokes;                        // ! DO NOT TOUCH !
-var aAmount = asteroids.length;     // ! DO NOT TOUCH !
-var scoreHigh = 0;                  // ! DO NOT TOUCH !
-var laserTimer = fps * 5 + 1        // ! DO NOT TOUCH !
-var laserTimerCounter;              // ! DO NOT TOUCH !
+var strokes;                            // ! DO NOT TOUCH !
+var aAmount = asteroids.length;         // ! DO NOT TOUCH !
+var scoreHigh = 0;                      // ! DO NOT TOUCH !
+var laserTimer = fps * 5 + 1            // ! DO NOT TOUCH !
+var laserTimerCounter;                  // ! DO NOT TOUCH !
+var powerUpTouch = false;               // ! DO NOT TOUCH !
+var powerUpAmount = powerUpHeal.length;     // ! DO NOT TOUCH !
+var powerUpRandomTime;                  // ! DO NOT TOUCH !
+var powerUpSpawnTime = powerUpRandomTime * fps;               // ! DO NOT TOUCH !
+var powerUpHealText = '+ 1 Life';       // ! DO NOT TOUCH !
+var powerUpHealTextTimer;               // ! DO NOT TOUCH !
 
 var start = 5;                      // The amount of Asteroids that spawn at the start of the game.
 var AddAsteroid = 10;               // How many Asteroids that spawn + the start variable
@@ -42,6 +50,8 @@ function setup() {
     var canvas = createCanvas(windowWidth, windowHeight);
     canvas.parent(game)
     bg = loadImage('pictures/galaxy.jpg')
+    powerUpRandomTime = random(20, 60);
+    powerUpSpawnTime = powerUpRandomTime * fps;
     ship = new Ship();
     
     // adds the starting asteroids
@@ -55,6 +65,18 @@ function setup() {
 function draw() {
     // Makes the background be the picture
     background(bg);
+    powerUpAmount = powerUpHeal.length;
+    if (powerUpAmount == 0) {
+        if (powerUpSpawnTime > 0) {
+            powerUpSpawnTime--
+            console.log(powerUpSpawnTime);
+        }
+        if (powerUpSpawnTime < 0) {
+            powerUpHeal.push(new PowerUpHeal());
+            powerUpRandomTime = random(20, 60);
+            powerUpSpawnTime = powerUpRandomTime * fps; 
+        }
+    }
 
     if (laserTimer >= 1) {
         laserTimer--;
@@ -78,7 +100,9 @@ function draw() {
         laserTimerCounter = 'Ready!';
     }
     
-
+    if (colorTime2 > 0) {
+        colorTime2--
+    }
 
     if (colorTime > 0 && a == false) {
         colorTime = colorTime - 3;
@@ -92,6 +116,12 @@ function draw() {
     } else {
         a = false;
     }
+
+
+
+
+
+
 
     if (scoreStr !== null) {
         scoreHigh = parseFloat(scoreStr).toFixed(2);
@@ -127,6 +157,91 @@ function draw() {
         }
     }
     
+    
+    
+    // If the amount of asteroids is equal to zero, then add another level and add asteroids based on the amount specified in the variables above
+    if (lives > 0) {
+        if (asteroids.length == 0) {
+            perlevel += AddAsteroid;
+            level++;
+            ship.pos = createVector(width / 2, height / 2); 
+            ship.vel = createVector(0, 0); 
+            shieldTime = fps * shieldSekunder;
+            while (asteroids.length < (start + perlevel)) {
+                asteroids.push(new Asteroid());
+            }
+        }
+    }
+    
+    
+    // This is the movement of the lasers and if the lasers go offscreen, it will remove the laser 
+    for (var i = lasers.length-1; i >= 0; i--) {
+        lasers[i].render();
+        lasers[i].update();
+        
+        
+        if (lasers[i].offscreen()) {
+            lasers.splice(i, 1);
+            
+        } else {
+            
+            // This is collision detection between the lasers and the asteroids. 
+            for (var j = asteroids.length- 1; j >= 0; j--) {
+                if (lasers[i].hits(asteroids[j])) {
+                    push();
+                    noStroke();
+                    fill(200, 0, 0);
+                    circle(lasers[i].pos.x, lasers[i].pos.y, 40);
+                    fill(255, 100, 0);
+                    circle(lasers[i].pos.x, lasers[i].pos.y, 20);
+                    pop();
+                    
+                    // If the radius of thae asteroid that has been hit is above 20, then split into 2 smaller ones
+                    if (asteroids[j].r > 20) {
+                        var newAsteroids = asteroids[j].breakup();
+                        asteroids = asteroids.concat(newAsteroids);
+                        aAmount = asteroids.length;
+                    }
+                    
+                    // Updating the amount of asteroids
+                    if (asteroids[j].r <= 20) {
+                        aAmount = asteroids.length;
+                    }
+                    // Removes the asteroid if the radius is below 20 and adds score. This also removes the laser if an asteroid is hit
+                    asteroids.splice(j, 1);
+                    if (score >= 1) {
+                        score = score + (addScore*(1+(perMultiplier*times)));
+                        times = times + 1;
+                        realscore = score.toFixed(2);
+                        multiplier = multiplier + addMultiplier;
+                    } else if (score < 0.9){
+                        score = score + 1;
+                        realscore = score.toFixed(2);
+                        multiplier = multiplier + addMultiplier;
+                    }
+                    lasers.splice(i, 1);
+                    break;
+                }
+            }
+        } 
+        
+        
+    }
+    if (lives > 0) {
+        for (var k = powerUpHeal.length - 1; k >= 0; k--) {
+            push();
+            powerUpHeal[k].render();
+            pop();
+         
+         if (ship.touch(powerUpHeal[k])) {
+             console.log('yes');
+             powerUpHeal.splice(k, 1)
+             powerUpHealTextTimer = fps * 5;
+             colorTime2 = 255;
+             lives = lives + 1;
+            }
+        }
+    }
     if (lives > 0) {
         push();
         textSize(30);
@@ -150,79 +265,16 @@ function draw() {
         textAlign(CENTER);
         text('Ability:' + ' ' + laserTimerCounter, width/2, height/10*9.5)
         pop();
-    }
-
-
-    // If the amount of asteroids is equal to zero, then add another level and add asteroids based on the amount specified in the variables above
-    if (lives > 0) {
-        if (asteroids.length == 0) {
-            perlevel += AddAsteroid;
-            level++;
-            ship.pos = createVector(width / 2, height / 2); 
-            ship.vel = createVector(0, 0); 
-            shieldTime = fps * shieldSekunder;
-            while (asteroids.length < (start + perlevel)) {
-                asteroids.push(new Asteroid());
-            }
+        if (powerUpHealTextTimer > 0) {
+            powerUpHealTextTimer--
+            push();
+            textSize(20);
+            fill(255 - colorTime2, 255 - colorTime2, 0); 
+            textAlign(CENTER);
+            text('You Picked Up: ' + powerUpHealText, width/2, height/10*8)
+            pop();
         }
     }
-    
-
-    // This is the movement of the lasers and if the lasers go offscreen, it will remove the laser 
-    for (var i = lasers.length-1; i >= 0; i--) {
-        lasers[i].render();
-        lasers[i].update();
-
-        
-        if (lasers[i].offscreen()) {
-            lasers.splice(i, 1);
-            
-        } else {
-            
-            // This is collision detection between the lasers and the asteroids. 
-            for (var j = asteroids.length- 1; j >= 0; j--) {
-                if (lasers[i].hits(asteroids[j])) {
-                        push();
-                        noStroke();
-                        fill(200, 0, 0);
-                        circle(lasers[i].pos.x, lasers[i].pos.y, 40);
-                        fill(255, 100, 0);
-                        circle(lasers[i].pos.x, lasers[i].pos.y, 20);
-                        pop();
-
-                    // If the radius of thae asteroid that has been hit is above 20, then split into 2 smaller ones
-                    if (asteroids[j].r > 20) {
-                        var newAsteroids = asteroids[j].breakup();
-                        asteroids = asteroids.concat(newAsteroids);
-                        aAmount = asteroids.length;
-                    }
-
-                    // Updating the amount of asteroids
-                    if (asteroids[j].r <= 20) {
-                        aAmount = asteroids.length;
-                    }
-                    // Removes the asteroid if the radius is below 20 and adds score. This also removes the laser if an asteroid is hit
-                    asteroids.splice(j, 1);
-                    if (score >= 1) {
-                        score = score + (addScore*(1+(perMultiplier*times)));
-                        times = times + 1;
-                        realscore = score.toFixed(2);
-                        multiplier = multiplier + addMultiplier;
-                    } else if (score < 0.9){
-                        score = score + 1;
-                        realscore = score.toFixed(2);
-                        multiplier = multiplier + addMultiplier;
-                    }
-                        lasers.splice(i, 1);
-                        break;
-                }
-            }
-        } 
-        
-
- }
-
-
 
 
     // Updates the ship's movement and turns
@@ -232,6 +284,7 @@ function draw() {
         ship.update();
         ship.edges();
         ship.movement();
+        
     }
 
     if (lives < 1) {

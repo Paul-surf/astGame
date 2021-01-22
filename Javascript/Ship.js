@@ -34,7 +34,13 @@ function Ship() {
             return false;
         }
     }
-
+    this.touch = function(power) {
+        if (dist(power.pos.x, power.pos.y, this.pos.x, this.pos.y) < (power.r/2)) {                         
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
     this.render = function () {                                  // This function creates the ship
