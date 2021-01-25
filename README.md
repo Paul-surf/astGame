@@ -10,15 +10,11 @@ A = Rotate Left
 D = Rotate Right
 
 Space = Shoot
+C = Ability
 ```
 
 ## How To Play
 
-The goal of the game, is to shoot all the asteroids, while dodging the them.
+Dodge Asteroids, Shoot Asteroids, Pick Up Power Ups and get the highest score possible. These are all the goals in the current game. The game starts with 5 asteroids, on the screen, and for every level you complete, 5 more will be added. Power Ups will randomly spawn on the map, between 20 and 60 seconds. These Power Ups will give you either "+1 Life", or "Ability Cooldown Reduction".  
 
-to do list
-- shop / skill tree
-- highscore
-- death explosion
-- Add different difficulties
-- Play again option
+

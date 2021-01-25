@@ -14,7 +14,7 @@ function setup() {
     ship1 = new Ship2();
     ship2 = new Ship3();
 
-    while (k < 100){
+    while (k < 10){
         k++;
         asteroids.push(new Asteroid());
     }

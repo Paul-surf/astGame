@@ -1,48 +1,54 @@
-var ship;                               // ! DO NOT TOUCH ! Variable for the ship
-var asteroids = [];                     // ! DO NOT TOUCH ! Array for the amount of Asteroids
-var lasers = [];                        // ! DO NOT TOUCH ! Array for the amount Lasers
-var powerUpHeal = [];                        // ! DO NOT TOUCH !
-var isRight = false;                    // ! DO NOT TOUCH ! Boolean for the Right function
-var isLeft = false;                     // ! DO NOT TOUCH ! Boolean for the Left function
-var isUp = false;                       // ! DO NOT TOUCH ! Boolean for the Forward function
-var isShooting = false;                 // ! DO NOT TOUCH ! Boolean for the Shooting function
-var bg;                                 // ! DO NOT TOUCH ! Variable for the picture in the background
-var score = 0;                          // ! DO NOT TOUCH ! The same as "realscore", but with a lot of decimals
-var realscore = score.toFixed(2);       // ! DO NOT TOUCH ! This variable is the one that shows the current score with two decimals on the screen
-var multiplier = 0;                     // ! DO NOT TOUCH ! The variable that shows the amount of multiplier on the screen
-var k = 0;                              // ! DO NOT TOUCH ! This is the variable 
-var perlevel = 0;                       // ! DO NOT TOUCH ! The total amount of Astroids added every level. This value changes everytime the level changes.
-var level = 1;                          // ! DO NOT TOUCH ! What level you are on
-var times = 1;                          // ! DO NOT TOUCH ! The amount of times you hit an asteroid
-var fps = 60;                           // ! DO NOT TOUCH ! The amount of times a function gets called per second
-var timer = 255;                        // ! DO NOT TOUCH !
-var a = false;                          // ! DO NOT TOUCH !
-var colorTime = timer;                  // ! DO NOT TOUCH !
-var colorTime2 = 0;                 // ! DO NOT TOUCH !
-var SAVE_KEY_SCORE = 'Highscore'        // ! DO NOT TOUCH !
+var ship;                                               // ! DO NOT TOUCH ! Variable for the ship
+var asteroids = [];                                     // ! DO NOT TOUCH ! Array for the amount of Asteroids
+var lasers = [];                                        // ! DO NOT TOUCH ! Array for the amount Lasers
+var powerUpHeal = [];                                   // ! DO NOT TOUCH !
+var powerUpCooldown = [];                               // ! DO NOT TOUCH !
+var isRight = false;                                    // ! DO NOT TOUCH ! Boolean for the Right function
+var isLeft = false;                                     // ! DO NOT TOUCH ! Boolean for the Left function
+var isUp = false;                                       // ! DO NOT TOUCH ! Boolean for the Forward function
+var isShooting = false;                                 // ! DO NOT TOUCH ! Boolean for the Shooting function
+var bg;                                                 // ! DO NOT TOUCH ! Variable for the picture in the background
+var score = 0;                                          // ! DO NOT TOUCH ! The same as "realscore", but with a lot of decimals
+var realscore = score.toFixed(2);                       // ! DO NOT TOUCH ! This variable is the one that shows the current score with two decimals on the screen
+var multiplier = 0;                                     // ! DO NOT TOUCH ! The variable that shows the amount of multiplier on the screen
+var k = 0;                                              // ! DO NOT TOUCH ! This is the variable 
+var powerUpChooser;                                     // ! DO NOT TOUCH !
+var perlevel = 0;                                       // ! DO NOT TOUCH ! The total amount of Astroids added every level. This value changes everytime the level changes.
+var level = 1;                                          // ! DO NOT TOUCH ! What level you are on
+var times = 1;                                          // ! DO NOT TOUCH ! The amount of times you hit an asteroid
+var fps = 60;                                           // ! DO NOT TOUCH ! The amount of times a function gets called per second
+var timer = 255;                                        // ! DO NOT TOUCH !
+var a = false;                                          // ! DO NOT TOUCH !
+var colorTime = timer;                                  // ! DO NOT TOUCH !
+var colorTime2 = 0;                                     // ! DO NOT TOUCH !
+var SAVE_KEY_SCORE = 'Highscore'                        // ! DO NOT TOUCH !
 var scoreStr = localStorage.getItem(SAVE_KEY_SCORE);    // ! DO NOT TOUCH !
-var strokes;                            // ! DO NOT TOUCH !
-var aAmount = asteroids.length;         // ! DO NOT TOUCH !
-var scoreHigh = 0;                      // ! DO NOT TOUCH !
-var laserTimer = fps * 5 + 1            // ! DO NOT TOUCH !
-var laserTimerCounter;                  // ! DO NOT TOUCH !
-var powerUpTouch = false;               // ! DO NOT TOUCH !
-var powerUpAmount = powerUpHeal.length;     // ! DO NOT TOUCH !
-var powerUpRandomTime;                  // ! DO NOT TOUCH !
-var powerUpSpawnTime = powerUpRandomTime * fps;               // ! DO NOT TOUCH !
-var powerUpHealText = '+ 1 Life';       // ! DO NOT TOUCH !
-var powerUpHealTextTimer;               // ! DO NOT TOUCH !
+var strokes;                                            // ! DO NOT TOUCH !
+var aAmount = asteroids.length;                         // ! DO NOT TOUCH !
+var scoreHigh = 0;                                      // ! DO NOT TOUCH !
+var laserTimer = fps * 5 + 1                            // ! DO NOT TOUCH !
+var laserTimerCounter;                                  // ! DO NOT TOUCH !
+var powerUpTouch = false;                               // ! DO NOT TOUCH !
+var powerUpAmount = powerUpHeal.length;                 // ! DO NOT TOUCH !
+var powerUpRandomTime;                                  // ! DO NOT TOUCH !
+var powerUpSpawnTime = powerUpRandomTime * fps;         // ! DO NOT TOUCH !
+var powerUpHealText = '+ 1 Life';                       // ! DO NOT TOUCH !
+var powerUpCooldownText = '0.5 Second Ability Cooldown'; // ! DO NOT TOUCH !
+var powerUpHealTextTimer;                               // ! DO NOT TOUCH !
+var powerUpCooldownTextTimer;                           // ! DO NOT TOUCH !
+var powerUpCooldownTimer = 0;                           // ! DO NOT TOUCH !
+var powerUpCooldownTimer2 = 0;                          // ! DO NOT TOUCH !
 
-var start = 5;                      // The amount of Asteroids that spawn at the start of the game.
-var AddAsteroid = 10;               // How many Asteroids that spawn + the start variable
-var perMultiplier = 0.10;           // How much the score multiplies every time an asteroid is destroyed
-var addScore = 1;                   // The amount of points added each time an asteroid is destroyed
-var shieldSekunder = 3;             // The amount of time you are shielded
-var lives = 3;                      // The amount of lives you have
-var onScreenBullets = 15;           // The amount of bullets you can have on the screen
+var start = 5;                                          // The amount of Asteroids that spawn at the start of the game.
+var AddAsteroid = 10;                                   // How many Asteroids that spawn + the start variable
+var perMultiplier = 0.10;                               // How much the score multiplies every time an asteroid is destroyed
+var addScore = 1;                                       // The amount of points added each time an asteroid is destroyed
+var shieldSekunder = 100000000;                         // The amount of time you are shielded
+var lives = 3;                                          // The amount of lives you have
+var onScreenBullets = 15;                               // The amount of bullets you can have on the screen
 
-var shieldTime = fps * shieldSekunder;  // ! DO NOT TOUCH ! The shield
-var addMultiplier = perMultiplier*100;  // ! DO NOT TOUCH ! The multiplier on the screen
+var shieldTime = fps * shieldSekunder;                  // ! DO NOT TOUCH ! The shield
+var addMultiplier = perMultiplier*100;                  // ! DO NOT TOUCH ! The multiplier on the screen
 
 
 // This is the setup function, which starts the game, by loading the ship and the asteroids at the start
@@ -52,6 +58,7 @@ function setup() {
     bg = loadImage('pictures/galaxy.jpg')
     powerUpRandomTime = random(20, 60);
     powerUpSpawnTime = powerUpRandomTime * fps;
+    powerUpChooser = random(1, 2);
     ship = new Ship();
     
     // adds the starting asteroids
@@ -65,17 +72,49 @@ function setup() {
 function draw() {
     // Makes the background be the picture
     background(bg);
-    powerUpAmount = powerUpHeal.length;
+
+    if (powerUpCooldownTimer > 0) {
+        powerUpCooldownTimer--
+    }
+
+    if (powerUpCooldown.length == 1) {
+        powerUpAmount = 1
+    }
+    if (powerUpHeal.length == 1) {
+        powerUpAmount = 1
+    }
+    if (powerUpHeal.length == 0 && powerUpCooldown.length == 0) {
+        powerUpAmount = 0
+    }
+
+
+    
     if (powerUpAmount == 0) {
         if (powerUpSpawnTime > 0) {
             powerUpSpawnTime--
-            console.log(powerUpSpawnTime);
         }
-        if (powerUpSpawnTime < 0) {
-            powerUpHeal.push(new PowerUpHeal());
-            powerUpRandomTime = random(20, 60);
-            powerUpSpawnTime = powerUpRandomTime * fps; 
+        if (powerUpChooser < 1.5) {
+            if (lives < 5) {
+                if (powerUpSpawnTime < 0) {
+                    powerUpHeal.push(new PowerUpHeal());
+                    powerUpRandomTime = random(20, 60);
+                    powerUpSpawnTime = powerUpRandomTime * fps; 
+                    powerUpChooser = random(1, 2);
+                }
+            } else {
+                powerUpChooser = 2
+            }
         }
+        if (powerUpChooser >= 1.5) {
+            if (powerUpSpawnTime < 0) {
+                powerUpCooldown.push(new PowerUpCooldown());
+                powerUpRandomTime = random(20, 60);
+                powerUpSpawnTime = powerUpRandomTime * fps; 
+                powerUpChooser = random(1, 2);
+                powerUpCooldownTimer = fps * 3;
+            }
+        }
+
     }
 
     if (laserTimer >= 1) {
@@ -98,6 +137,18 @@ function draw() {
     }
     if (laserTimer == 0) {
         laserTimerCounter = 'Ready!';
+    }
+    if (powerUpCooldownTimer == 179) {
+        powerUpCooldownTimer2 = 3;
+    }
+    if (powerUpCooldownTimer == 120) {
+        powerUpCooldownTimer2 = 2;
+    }
+    if (powerUpCooldownTimer == 60) {
+        powerUpCooldownTimer2 = 1;
+    }
+    if (powerUpCooldownTimer == 1) {
+        powerUpCooldownTimer2 = 0;
     }
     
     if (colorTime2 > 0) {
@@ -232,13 +283,26 @@ function draw() {
             push();
             powerUpHeal[k].render();
             pop();
-         
-         if (ship.touch(powerUpHeal[k])) {
-             console.log('yes');
-             powerUpHeal.splice(k, 1)
-             powerUpHealTextTimer = fps * 5;
-             colorTime2 = 255;
-             lives = lives + 1;
+
+            
+            if (ship.touch(powerUpHeal[k])) {
+                powerUpHeal.splice(k, 1)
+                powerUpHealTextTimer = fps * 5;
+                colorTime2 = 255;
+                lives = lives + 1;
+            }
+        }
+        for (var l = powerUpCooldown.length - 1; l >= 0; l--) {
+            push();
+            powerUpCooldown[l].render();
+            pop();
+
+            if (ship.touch(powerUpCooldown[l])) {
+                powerUpCooldown.splice(l, 1)
+                colorTime2 = 255;
+                powerUpCooldownTimer = fps * 3;
+                powerUpCooldownTextTimer = fps * 5;
+                onScreenBullets = 1000;
             }
         }
     }
@@ -272,6 +336,21 @@ function draw() {
             fill(255 - colorTime2, 255 - colorTime2, 0); 
             textAlign(CENTER);
             text('You Picked Up: ' + powerUpHealText, width/2, height/10*8)
+            pop();
+        }
+        if (powerUpCooldownTextTimer > 0) {
+            powerUpCooldownTextTimer--
+            push();
+            textSize(20);
+            fill(255 - colorTime2, 255 - colorTime2, 0); 
+            textAlign(CENTER);
+            text('You Picked Up: ' + powerUpCooldownText, width/2, height/10*8)
+            pop();
+            push();
+            textSize(20);
+            fill('Yellow'); 
+            textAlign(LEFT);
+            text('Power Up Cooldown: ' + powerUpCooldownTimer2, 10, height/10*9.5)
             pop();
         }
     }
@@ -362,20 +441,38 @@ function keyPressed() {
         if (lives > 0) {
             if (lasers.length < onScreenBullets) {
                 if (laserTimer < 1) {
-                    lasers.push(new Laser(ship.pos, ship.heading + 0.3));
-                    lasers.push(new Laser(ship.pos, ship.heading + 0.25));
-                    lasers.push(new Laser(ship.pos, ship.heading + 0.2));
-                    lasers.push(new Laser(ship.pos, ship.heading + 0.15));
-                    lasers.push(new Laser(ship.pos, ship.heading + 0.1));
-                    lasers.push(new Laser(ship.pos, ship.heading + 0.05));
-                    lasers.push(new Laser(ship.pos, ship.heading));
-                    lasers.push(new Laser(ship.pos, ship.heading - 0.05));
-                    lasers.push(new Laser(ship.pos, ship.heading - 0.1));
-                    lasers.push(new Laser(ship.pos, ship.heading - 0.15));
-                    lasers.push(new Laser(ship.pos, ship.heading - 0.2));
-                    lasers.push(new Laser(ship.pos, ship.heading - 0.25));
-                    lasers.push(new Laser(ship.pos, ship.heading - 0.3));
-                    laserTimer = fps * 5;
+                    if (powerUpCooldownTimer > 0) {
+                        lasers.push(new Laser(ship.pos, ship.heading + 0.3));
+                        lasers.push(new Laser(ship.pos, ship.heading + 0.25));
+                        lasers.push(new Laser(ship.pos, ship.heading + 0.2));
+                        lasers.push(new Laser(ship.pos, ship.heading + 0.15));
+                        lasers.push(new Laser(ship.pos, ship.heading + 0.1));
+                        lasers.push(new Laser(ship.pos, ship.heading + 0.05));
+                        lasers.push(new Laser(ship.pos, ship.heading));
+                        lasers.push(new Laser(ship.pos, ship.heading - 0.05));
+                        lasers.push(new Laser(ship.pos, ship.heading - 0.1));
+                        lasers.push(new Laser(ship.pos, ship.heading - 0.15));
+                        lasers.push(new Laser(ship.pos, ship.heading - 0.2));
+                        lasers.push(new Laser(ship.pos, ship.heading - 0.25));
+                        lasers.push(new Laser(ship.pos, ship.heading - 0.3));
+                        laserTimer = fps * 0.5;
+                    } else {
+                        lasers.push(new Laser(ship.pos, ship.heading + 0.3));
+                        lasers.push(new Laser(ship.pos, ship.heading + 0.25));
+                        lasers.push(new Laser(ship.pos, ship.heading + 0.2));
+                        lasers.push(new Laser(ship.pos, ship.heading + 0.15));
+                        lasers.push(new Laser(ship.pos, ship.heading + 0.1));
+                        lasers.push(new Laser(ship.pos, ship.heading + 0.05));
+                        lasers.push(new Laser(ship.pos, ship.heading));
+                        lasers.push(new Laser(ship.pos, ship.heading - 0.05));
+                        lasers.push(new Laser(ship.pos, ship.heading - 0.1));
+                        lasers.push(new Laser(ship.pos, ship.heading - 0.15));
+                        lasers.push(new Laser(ship.pos, ship.heading - 0.2));
+                        lasers.push(new Laser(ship.pos, ship.heading - 0.25));
+                        lasers.push(new Laser(ship.pos, ship.heading - 0.3));
+                        laserTimer = fps * 5;
+                        onScreenBullets = 15;
+                    }
                 }
             }
         }
