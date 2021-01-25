@@ -43,7 +43,7 @@ var start = 5;                                          // The amount of Asteroi
 var AddAsteroid = 10;                                   // How many Asteroids that spawn + the start variable
 var perMultiplier = 0.10;                               // How much the score multiplies every time an asteroid is destroyed
 var addScore = 1;                                       // The amount of points added each time an asteroid is destroyed
-var shieldSekunder = 100000000;                         // The amount of time you are shielded
+var shieldSekunder = 4;                         // The amount of time you are shielded
 var lives = 3;                                          // The amount of lives you have
 var onScreenBullets = 15;                               // The amount of bullets you can have on the screen
 
